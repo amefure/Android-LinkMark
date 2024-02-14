@@ -1,8 +1,10 @@
 package com.amefure.linkmark.Repository.Room.Model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 import java.net.URL
 import java.util.Date
 
@@ -12,15 +14,30 @@ import java.util.Date
         ForeignKey(
         entity = Category::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("userId"),
+        childColumns = arrayOf("category_id"),
         onDelete =ForeignKey.CASCADE
     ))
 )
 data class Locator (
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
-    val url: URL,
+    val url: String,
     val memo: String,
     val order: Int,
-    val createdAt: Date
+    @ColumnInfo(name = "created_at")
+    val createdAt: Date,
+    @ColumnInfo(name = "category_id")
+    val categoryId: Int
 )
+
+class DateConverters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?) : Long? {
+        return date?.time
+    }
+}
