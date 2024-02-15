@@ -27,6 +27,7 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
             val order = _categoryList.value?.size ?: 0
             rootRepository.insertCategory(name, color, order)
         }
+        fetchAllCategorys()
     }
 
 //    public fun updateCategory(id: Int, name:String, returnFlag: Boolean ,current: Boolean, amountSum: Long) {

@@ -4,6 +4,7 @@ import android.content.Context
 import com.amefure.linkmark.Repository.Room.Database.AppDatabase
 import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.Model.Locator
+import com.amefure.linkmark.ViewModel.RootApplication
 import io.reactivex.disposables.CompositeDisposable
 import java.util.Date
 
@@ -13,7 +14,7 @@ class RootRepository (context: Context) {
     // Dao
     private val categoryDao = AppDatabase.getDatabase(context).categoryDao()
     private val locatorDao = AppDatabase.getDatabase(context).locatorDao()
-
+    private  var dd = context.applicationContext as RootApplication
     // カテゴリ追加
     public fun insertCategory(name: String, color: String, order: Int) {
         val category = Category(

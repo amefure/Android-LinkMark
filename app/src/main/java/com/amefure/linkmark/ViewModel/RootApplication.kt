@@ -8,4 +8,12 @@ class RootApplication : Application() {
      * [RootRepository]のインスタンス
      */
     val rootRepository: RootRepository by lazy { RootRepository(this) }
+
+    override fun onCreate() {
+        super.onCreate()
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+    }
 }
