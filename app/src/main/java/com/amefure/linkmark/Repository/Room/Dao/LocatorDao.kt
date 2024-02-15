@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.amefure.linkmark.Repository.Room.Model.Locator
+import com.amefure.linkmark.Model.Locator
 
 @Dao
 interface LocatorDao {
@@ -14,7 +14,7 @@ interface LocatorDao {
     fun insertLocator(locator: Locator)
 
     @Query("SELECT * FROM locator_table")
-    fun getAllLocator(): List<Locator>
+    fun fetchAllLocator(): List<Locator>
 
     @Delete
     fun deleteLocator(locator: Locator)

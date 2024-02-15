@@ -2,8 +2,9 @@ package com.amefure.linkmark.Repository.Room
 
 import android.content.Context
 import com.amefure.linkmark.Repository.Room.Database.AppDatabase
-import com.amefure.linkmark.Repository.Room.Model.Category
-import com.amefure.linkmark.Repository.Room.Model.Locator
+import com.amefure.linkmark.Model.Category
+import com.amefure.linkmark.Model.Locator
+import io.reactivex.disposables.CompositeDisposable
 import java.util.Date
 
 
@@ -14,12 +15,12 @@ class RootRepository (context: Context) {
     private val locatorDao = AppDatabase.getDatabase(context).locatorDao()
 
     // カテゴリ追加
-    public fun insertCategory(name: String, color: String) {
+    public fun insertCategory(name: String, color: String, order: Int) {
         val category = Category(
             id = 0,
             name = name,
             color = color,
-            order = 0
+            order = order
         )
         categoryDao.insertCategory(category)
     }
@@ -39,13 +40,13 @@ class RootRepository (context: Context) {
     }
 
     // カテゴリ取得
-    public fun getAllCategory(): List<Category> {
-        return categoryDao.getAllCategory()
+    public fun fetchAllCategory(): List<Category> {
+        return categoryDao.fetchAllCategory()
     }
 
     // URL取得
-    public fun getAllLocator(): List<Locator> {
-        return locatorDao.getAllLocator()
+    public fun fetchAllLocator(): List<Locator> {
+        return locatorDao.fetchAllLocator()
     }
 
     // カテゴリ削除

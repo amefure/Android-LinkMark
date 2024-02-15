@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.amefure.linkmark.Repository.Room.Model.Category
+import com.amefure.linkmark.Model.Category
 
 @Dao
 interface CategoryDao {
@@ -14,7 +14,7 @@ interface CategoryDao {
     fun insertCategory(category: Category)
 
     @Query("SELECT * FROM category_table")
-    fun getAllCategory(): List<Category>
+    fun fetchAllCategory(): List<Category>
 
     @Delete
     fun deleteCategory(category: Category)

@@ -1,4 +1,4 @@
-package com.amefure.linkmark.Repository.Room.Model
+package com.amefure.linkmark.Model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

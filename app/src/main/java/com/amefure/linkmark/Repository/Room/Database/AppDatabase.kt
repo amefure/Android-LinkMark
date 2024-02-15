@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.amefure.linkmark.Repository.Room.Dao.CategoryDao
 import com.amefure.linkmark.Repository.Room.Dao.LocatorDao
-import com.amefure.linkmark.Repository.Room.Model.Category
-import com.amefure.linkmark.Repository.Room.Model.DateConverters
-import com.amefure.linkmark.Repository.Room.Model.Locator
+import com.amefure.linkmark.Model.Category
+import com.amefure.linkmark.Model.DateConverters
+import com.amefure.linkmark.Model.Locator
 
 @Database(entities = [Category::class, Locator::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverters::class)
