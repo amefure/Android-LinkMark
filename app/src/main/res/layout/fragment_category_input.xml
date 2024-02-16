@@ -5,6 +5,8 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ex_thema"
+    android:clickable="true"
     tools:context=".View.Category.CategoryInputFragment">
 
     <include layout="@layout/layout_header"
@@ -20,10 +22,10 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:text="Name"
+        android:text="Category Name"
+        android:alpha="0.5"
         android:textColor="@color/ex_text"
         android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include_header" />
@@ -35,10 +37,14 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/input_background"
         android:ems="10"
+        android:hint="レシピ・スポーツ..."
         android:inputType="text"
-        android:text="Name"
+        android:padding="15dp"
+        android:text=""
         android:textColor="@color/ex_text"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_label" />
@@ -51,9 +57,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:text="Color"
+        android:alpha="0.5"
         android:textColor="@color/ex_text"
         android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,9 +74,11 @@
         android:layout_marginEnd="20dp"
         android:orientation="horizontal"
         android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/color_label">
+        app:layout_constraintTop_toBottomOf="@+id/color_label"
+        app:layout_constraintVertical_bias="0.0">
 
         <Space
             android:layout_width="wrap_content"
@@ -80,8 +88,8 @@
 
         <Button
             android:id="@+id/select_red_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
             android:background="@drawable/circle_red" />
 
         <Space
@@ -91,8 +99,8 @@
 
         <Button
             android:id="@+id/select_yellow_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
             android:background="@drawable/circle_yellow" />
 
         <Space
@@ -103,8 +111,8 @@
 
         <Button
             android:id="@+id/select_blue_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
             android:background="@drawable/circle_blue" />
 
         <Space
@@ -115,8 +123,8 @@
 
         <Button
             android:id="@+id/select_green_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
             android:background="@drawable/circle_green" />
 
         <Space
@@ -127,8 +135,8 @@
 
         <Button
             android:id="@+id/select_purple_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
             android:background="@drawable/circle_purple" />
 
         <Space

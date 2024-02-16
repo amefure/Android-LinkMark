@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/right_button"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="20dp"
         android:layout_height="20dp"

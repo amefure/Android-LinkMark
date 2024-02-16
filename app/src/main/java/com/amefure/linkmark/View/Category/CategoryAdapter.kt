@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.amefure.linkmark.Model.AppThemaColor
 import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.R
 
@@ -24,6 +25,15 @@ class CategoryAdapter(categoryList: List<Category>) :RecyclerView.Adapter<Catego
         override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
             val category = _categoryList[position]
 
+            val drawable = when(category.color) {
+                AppThemaColor.RED.name -> R.drawable.circle_red
+                AppThemaColor.YELLOW.name -> R.drawable.circle_yellow
+                AppThemaColor.BLUE.name -> R.drawable.circle_blue
+                AppThemaColor.GREEN.name -> R.drawable.circle_green
+                AppThemaColor.PURPLE.name -> R.drawable.circle_purple
+                else -> R.drawable.circle_red
+            }
+            holder.color.setBackgroundResource(drawable)
             holder.name.text = category.name
             holder.count.text = "3"
         }

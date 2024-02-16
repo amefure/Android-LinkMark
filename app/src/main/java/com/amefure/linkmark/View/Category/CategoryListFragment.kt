@@ -34,8 +34,11 @@ class CategoryListFragment : Fragment() {
         var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
 
         addButton.setOnClickListener {
-            Log.e("------","Tapped")
-            viewModel.insertCategory("Test","red")
+            parentFragmentManager.beginTransaction().apply {
+                add(R.id.main_frame, CategoryInputFragment())
+                addToBackStack(null)
+                commit()
+            }
         }
 
         viewModel.categoryList.observe(this.requireActivity()) { it
@@ -45,7 +48,6 @@ class CategoryListFragment : Fragment() {
                 DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
             )
             recyclerView.adapter = viewModel.categoryList.value?.let { CategoryAdapter(it) }
-
         }
     }
 }
