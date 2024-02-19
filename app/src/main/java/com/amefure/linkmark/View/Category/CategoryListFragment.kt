@@ -1,7 +1,6 @@
 package com.amefure.linkmark.View.Category
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class CategoryListFragment : Fragment() {
 
     private val viewModel: CategoryViewModel by viewModels()
+
+    // UI
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,7 @@ class CategoryListFragment : Fragment() {
 
         viewModel.fetchAllCategorys()
 
+        recyclerView = view.findViewById(R.id.category_list)
 
         var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
 
@@ -42,12 +46,31 @@ class CategoryListFragment : Fragment() {
         }
 
         viewModel.categoryList.observe(this.requireActivity()) { it
-            val recyclerView: RecyclerView = view.findViewById(R.id.category_list)
-            recyclerView.layoutManager = LinearLayoutManager(this.requireActivity())
-            recyclerView.addItemDecoration(
-                DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
-            )
-            recyclerView.adapter = viewModel.categoryList.value?.let { CategoryAdapter(it) }
+            setUpRecyclerView()
         }
     }
+
+    private fun setUpRecyclerView() {
+        recyclerView.layoutManager = LinearLayoutManager(this.requireActivity())
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
+        )
+
+        viewModel.categoryList.value?.let {
+            val adapter = CategoryAdapter(it)
+            adapter.setOnTapedListner(
+                object :CategoryAdapter.onTapedListner{
+                    override fun onTaped(categoryId: Int) {
+                        parentFragmentManager.beginTransaction().apply {
+                            add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))
+                            addToBackStack(null)
+                            commit()
+                        }
+                    }
+                }
+            )
+            recyclerView.adapter = adapter
+        }
+    }
+
 }
