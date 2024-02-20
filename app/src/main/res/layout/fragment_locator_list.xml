@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frame_layout"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ex_thema"
     android:clickable="true"
-    tools:context=".View.Category.CategoryListFragment">
+    tools:context=".View.Locator.LocatorListFragment">
 
     <include
         android:id="@+id/include_header"
@@ -20,9 +20,9 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/category_list"
+        android:id="@+id/locator_list"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toTopOf="@+id/add_button"
