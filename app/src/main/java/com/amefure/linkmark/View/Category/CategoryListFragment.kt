@@ -45,9 +45,7 @@ class CategoryListFragment : Fragment() {
             }
         }
 
-        viewModel.categoryList.observe(this.requireActivity()) { it
-            setUpRecyclerView()
-        }
+        setUpRecyclerView()
     }
 
     private fun setUpRecyclerView() {
@@ -56,7 +54,7 @@ class CategoryListFragment : Fragment() {
             DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
         )
 
-        viewModel.categoryList.value?.let {
+        viewModel.categoryList.observe(this.requireActivity()) { it
             val adapter = CategoryAdapter(it)
             adapter.setOnTapedListner(
                 object :CategoryAdapter.onTapedListner{

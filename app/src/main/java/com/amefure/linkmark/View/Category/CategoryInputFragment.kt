@@ -47,7 +47,7 @@ class CategoryInputFragment : Fragment() {
         registerButton.setOnClickListener {
             val name: String = inputNameText.text.toString()
             if (!name.isEmpty()) {
-                viewModel.insertCategory(name,selectedColor)
+                viewModel.insertCategory(name, selectedColor)
                 closedKeyBoard()
                 parentFragmentManager.popBackStack()
             }

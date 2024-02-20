@@ -17,8 +17,9 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
     public fun fetchAllCategorys() {
         // データの取得は非同期で
         viewModelScope.launch(Dispatchers.IO) {  // データ取得はIOスレッドで
-            var data = rootRepository.fetchAllCategory()
-            _categoryList.postValue(data)  // 本来はDBやCacheから取得
+            rootRepository.fetchAllCategory {
+                _categoryList.postValue(it)  // 本来はDBやCacheから取得
+            }
         }
     }
 
