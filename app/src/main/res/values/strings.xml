@@ -3,6 +3,7 @@
 
     <!-- Dialog -->
     <string name="dialog_title_notice">お知らせ</string>
+    <string name="dialog_msg_validation_name">・カテゴリ名は必須入力です。</string>
     <string name="dialog_msg_validation_title">・タイトルは必須入力です。</string>
     <string name="dialog_msg_validation_url">・有効なリンクを入力してください。</string>
 </resources>

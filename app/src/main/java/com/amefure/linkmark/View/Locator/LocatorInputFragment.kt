@@ -89,15 +89,13 @@ class LocatorInputFragment : Fragment() {
         }
 
         if (isValidationEmptyFlag || isValidationUrlFlag ) {
-            val dialog = CustomNotifyDialogFragment.newInstance( getString(R.string.dialog_title_notice), failedDialogMessage())
-            dialog.setOnButtonTappedListner(
-                positiveListner =
-                object : CustomNotifyDialogFragment.onPositiveButtonTappedListner{
-                    override fun onTapped() {
-                    }
-                }
+            val dialog = CustomNotifyDialogFragment.newInstance(
+                title = getString(R.string.dialog_title_notice),
+                msg = failedDialogMessage(),
+                showPositive = true,
+                showNegative = false
             )
-            dialog.show(parentFragmentManager, "custom")
+            dialog.show(parentFragmentManager, "ValidateTitleAndURLDialog")
 
             return@registerAction
         }

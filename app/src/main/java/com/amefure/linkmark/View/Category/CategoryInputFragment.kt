@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.amefure.linkmark.Model.AppThemaColor
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 class CategoryInputFragment : Fragment() {
 
@@ -68,6 +69,15 @@ class CategoryInputFragment : Fragment() {
             viewModel.insertCategory(name, selectedColor)
             closedKeyBoard()
             parentFragmentManager.popBackStack()
+        } else {
+            val dialog = CustomNotifyDialogFragment.newInstance(
+                title = getString(R.string.dialog_title_notice),
+                msg = getString(R.string.dialog_msg_validation_name),
+                showPositive = true,
+                showNegative = false
+            )
+            dialog.show(parentFragmentManager, "ValidateNameDialog")
+            return@registerAction
         }
     }
 
