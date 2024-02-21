@@ -47,6 +47,7 @@ class CategoryInputFragment : Fragment() {
 
         val leftButton: ImageButton = headerView.findViewById(R.id.left_button)
         leftButton.setOnClickListener {
+            closedKeyBoard()
             parentFragmentManager.popBackStack()
         }
 
