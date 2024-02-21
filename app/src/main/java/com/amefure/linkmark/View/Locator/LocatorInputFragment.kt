@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.webkit.URLUtil
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.CustomNotifyDialogFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 
 class LocatorInputFragment : Fragment() {
@@ -20,6 +22,9 @@ class LocatorInputFragment : Fragment() {
     private var categoryId: Int = 0
 
     private val viewModel: LocatorViewModel by viewModels()
+
+    private var isValidationEmptyFlag = false
+    private var isValidationUrlFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +61,63 @@ class LocatorInputFragment : Fragment() {
             val url: String = inputUrlText.text.toString()
             val memo: String = inputMemoText.text.toString()
 
-            if (!title.isEmpty() && !url.isEmpty()) {
-                viewModel.insertLocator(
-                    categoryId = categoryId,
-                    title = title,
-                    url = url,
-                    memo = memo
-                )
-                closedKeyBoard()
-                parentFragmentManager.popBackStack()
+            isValidationEmptyFlag = false
+            isValidationUrlFlag = false
+            if (title.isEmpty()) {
+                isValidationEmptyFlag = true
             }
+
+            if (!isValidURL(url)) {
+                isValidationUrlFlag = true
+            }
+
+            if (isValidationEmptyFlag || isValidationUrlFlag ) {
+                val dialog = CustomNotifyDialogFragment.newInstance( getString(R.string.dialog_title_notice), failedDialogMessage())
+                dialog.setOnButtonTappedListner(
+                    positiveListner =
+                    object :CustomNotifyDialogFragment.onPositiveButtonTappedListner{
+                        override fun onTapped() {
+                        }
+                    }
+                )
+                dialog.show(parentFragmentManager, "custom")
+
+                return@setOnClickListener
+            }
+
+            viewModel.insertLocator(
+                categoryId = categoryId,
+                title = title,
+                url = url,
+                memo = memo
+            )
+            closedKeyBoard()
+            parentFragmentManager.popBackStack()
         }
+    }
+
+    /**
+     * URLのバリデーション
+     */
+    private fun isValidURL(url: String): Boolean {
+        return URLUtil.isValidUrl(url)
+    }
+
+    /**
+     * 登録時バリデーションメッセージ
+     */
+    private fun failedDialogMessage(): String {
+        var msg = ""
+        if (isValidationEmptyFlag) {
+            msg = getString(R.string.dialog_msg_validation_title)
+        }
+        if (isValidationUrlFlag) {
+            if (isValidationEmptyFlag) {
+                msg += "\n"
+            }
+            msg += getString(R.string.dialog_msg_validation_url)
+        }
+        return msg
     }
 
     /**
