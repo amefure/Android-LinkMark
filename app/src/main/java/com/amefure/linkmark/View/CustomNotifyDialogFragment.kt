@@ -8,33 +8,31 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
-import com.amefure.linkmark.View.Locator.LocatorAdapter
-
 
 class CustomNotifyDialogFragment : DialogFragment() {
 
-    private var title: String = getString(R.string.dialog_title_notice)
+    /**
+     * 引数で受け取るデータ
+     */
+    private var title: String = ""
     private var msg: String = ""
 
-    companion object {
-        @JvmStatic
-        public fun newInstance(title: String, msg: String) =
-            CustomNotifyDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putString(AppArgKey.ARG_DIALOG_TITLE_KEY, title)
-                    putString(AppArgKey.ARG_DIALOG_MSG_KEY, msg)
-                }
-            }
-    }
-
+    /**
+     * 引数で受け取る処理
+     */
     private var positiveListner: onPositiveButtonTappedListner? = null
     private var negativeListner: onNegativeButtonTappedListner? = null
 
+    /**
+     * ポジティブボタンアクション
+     */
     interface onPositiveButtonTappedListner {
         fun onTapped()
     }
 
-
+    /**
+     * ネガティブボタンアクション
+     */
     interface onNegativeButtonTappedListner {
         fun onTapped()
     }
@@ -46,6 +44,20 @@ class CustomNotifyDialogFragment : DialogFragment() {
     public fun setOnButtonTappedListner(positiveListner: onPositiveButtonTappedListner? = null, negativeListner: onNegativeButtonTappedListner? = null) {
         this.positiveListner = positiveListner
         this.negativeListner = negativeListner
+    }
+
+    /**
+     * インスタンス化メソッド
+     */
+    companion object {
+        @JvmStatic
+        public fun newInstance(title: String, msg: String) =
+            CustomNotifyDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putString(AppArgKey.ARG_DIALOG_TITLE_KEY, title)
+                    putString(AppArgKey.ARG_DIALOG_MSG_KEY, msg)
+                }
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,17 +74,27 @@ class CustomNotifyDialogFragment : DialogFragment() {
         val inflater = this.requireActivity().layoutInflater
         val dialog = inflater.inflate(R.layout.fragment_custom_notify_dialog,null)
 
-        val button: Button = dialog.findViewById(R.id.positive_button)
         val title: TextView = dialog.findViewById(R.id.dialog_title)
-        title.text = this.title
         val msg: TextView = dialog.findViewById(R.id.dialog_msg)
+        val positiveButton: Button = dialog.findViewById(R.id.positive_button)
+        val negativeButton: Button = dialog.findViewById(R.id.negative_button)
+
+        title.text = this.title
         msg.text = this.msg
-        button.setOnClickListener {
+
+        // ポジティブボタンアクション実装
+        positiveButton.setOnClickListener {
             positiveListner?.onTapped()
             dismiss()
         }
+
+        // ネガティブボタンアクション実装
+        negativeButton.setOnClickListener {
+            negativeListner?.onTapped()
+            dismiss()
+        }
+
         builder.setView(dialog)
         return builder.create()
     }
-
 }
