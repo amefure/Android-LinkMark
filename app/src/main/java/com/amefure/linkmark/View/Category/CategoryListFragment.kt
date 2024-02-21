@@ -57,7 +57,7 @@ class CategoryListFragment : Fragment() {
         viewModel.categoryList.observe(this.requireActivity()) { it
             val adapter = CategoryAdapter(it)
             adapter.setOnTapedListner(
-                object :CategoryAdapter.onTapedListner{
+                object :CategoryAdapter.onTappedListner{
                     override fun onTaped(categoryId: Int) {
                         parentFragmentManager.beginTransaction().apply {
                             add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))

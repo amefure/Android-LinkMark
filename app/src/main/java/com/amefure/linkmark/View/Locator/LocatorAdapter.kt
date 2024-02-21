@@ -40,9 +40,9 @@ class LocatorAdapter(locatorList: List<Locator>): RecyclerView.Adapter<LocatorAd
         val url: TextView = itemView.findViewById(R.id.locator_url)
     }
 
-    private lateinit var listner: onTapedListner
+    private lateinit var listner: onTappedListner
 
-    interface onTapedListner {
+    interface onTappedListner {
         fun onTaped(url: String)
     }
 
@@ -50,7 +50,7 @@ class LocatorAdapter(locatorList: List<Locator>): RecyclerView.Adapter<LocatorAd
      * リスナーのセットは使用するFragmentから呼び出して行う
      * リスナーオブジェクトの中に処理が含まれて渡される
      */
-    public fun setOnTapedListner(listener: onTapedListner) {
+    public fun setOnTapedListner(listener: onTappedListner) {
         // 定義した変数listenerに実行したい処理を引数で渡す（CategoryListFragmentで渡している）
         this.listner = listener
     }

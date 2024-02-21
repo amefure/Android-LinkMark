@@ -69,7 +69,7 @@ class LocatorListFragment : Fragment() {
             Log.e("-------変化したよ", "url")
             val adapter = LocatorAdapter(it)
             adapter.setOnTapedListner(
-                object :LocatorAdapter.onTapedListner{
+                object :LocatorAdapter.onTappedListner{
                     override fun onTaped(url: String) {
                         Log.e("-------", url)
                     }

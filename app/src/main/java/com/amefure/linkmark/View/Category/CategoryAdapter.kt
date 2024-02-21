@@ -47,8 +47,8 @@ class CategoryAdapter(categoryList: List<Category>) :RecyclerView.Adapter<Catego
         val count: TextView = itemView.findViewById(R.id.link_count_label)
     }
 
-    private lateinit var listener: onTapedListner
-    interface onTapedListner {
+    private lateinit var listener: onTappedListner
+    interface onTappedListner {
         fun onTaped(categoryId: Int)
     }
 
@@ -56,7 +56,7 @@ class CategoryAdapter(categoryList: List<Category>) :RecyclerView.Adapter<Catego
      * リスナーのセットは使用するFragmentから呼び出して行う
      * リスナーオブジェクトの中に処理が含まれて渡される
      */
-    public fun setOnTapedListner(listener: onTapedListner) {
+    public fun setOnTapedListner(listener: onTappedListner) {
         // 定義した変数listenerに実行したい処理を引数で渡す（CategoryListFragmentで渡している）
         this.listener = listener
     }
