@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.View.WebView.ControlWebViewFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -60,6 +61,8 @@ class LocatorListFragment : Fragment() {
         }
 
         recyclerView = view.findViewById(R.id.locator_list)
+        recyclerView.outlineProvider = ClipOutlineProvider()
+        recyclerView.clipToOutline = true
 
         // 対象カテゴリIDに紐づくデータを取得する
         viewModel.fetchAllLocator(categoryId = categoryId)

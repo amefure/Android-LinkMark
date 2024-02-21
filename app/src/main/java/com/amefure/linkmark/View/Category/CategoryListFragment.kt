@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Locator.LocatorListFragment
+import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -36,6 +37,8 @@ class CategoryListFragment : Fragment() {
         viewModel.fetchAllCategorys()
 
         recyclerView = view.findViewById(R.id.category_list)
+        recyclerView.outlineProvider = ClipOutlineProvider()
+        recyclerView.clipToOutline = true
 
         // ヘッダーセットアップ
         setUpHeaderAction(view)
@@ -97,5 +100,4 @@ class CategoryListFragment : Fragment() {
             recyclerView.adapter = adapter
         }
     }
-
 }
