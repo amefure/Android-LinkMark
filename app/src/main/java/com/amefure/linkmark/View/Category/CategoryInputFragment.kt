@@ -30,27 +30,43 @@ class CategoryInputFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 登録ボタンのセットアップ
-        setUpRegisterButton(view)
+        // ヘッダーセットアップ
+        setUpHeaderAction(view)
         // カラー選択ボタン押下時のセットアップ
         setUpColorButton(view)
     }
 
 
     /**
+     * ヘッダーボタンセットアップ
+     * [LeftButton]：backButton
+     * [RightButton]：登録処理ボタン
+     */
+    private fun setUpHeaderAction(view: View) {
+        val headerView: ConstraintLayout = view.findViewById(R.id.include_header)
+
+        val leftButton: ImageButton = headerView.findViewById(R.id.left_button)
+        leftButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
+        rightButton.setOnClickListener {
+            registerAction(view)
+        }
+    }
+
+    /**
      * Headerにある右側のボタンに登録処理を実装
      */
-    private fun setUpRegisterButton(view: View) {
+    private fun registerAction(view: View) {
         val inputNameText: EditText = view.findViewById(R.id.name_edit_text)
 
-        val registerButton: ImageButton = view.findViewById<ConstraintLayout>(R.id.include_header).findViewById(R.id.right_button)
-        registerButton.setOnClickListener {
-            val name: String = inputNameText.text.toString()
-            if (!name.isEmpty()) {
-                viewModel.insertCategory(name, selectedColor)
-                closedKeyBoard()
-                parentFragmentManager.popBackStack()
-            }
+        val name: String = inputNameText.text.toString()
+        if (!name.isEmpty()) {
+            viewModel.insertCategory(name, selectedColor)
+            closedKeyBoard()
+            parentFragmentManager.popBackStack()
         }
     }
 

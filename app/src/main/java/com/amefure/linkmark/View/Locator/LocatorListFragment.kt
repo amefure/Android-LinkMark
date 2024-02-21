@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +46,9 @@ class LocatorListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // ヘッダーセットアップ
+        setUpHeaderAction(view)
+
         var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
 
         addButton.setOnClickListener {
@@ -61,6 +67,27 @@ class LocatorListFragment : Fragment() {
         setUpRecyclerView()
     }
 
+    /**
+     * ヘッダーボタンセットアップ
+     * [LeftButton]：backButton
+     * [RightButton]：非表示(GONE)
+     */
+    private fun setUpHeaderAction(view: View) {
+        val headerView: ConstraintLayout = view.findViewById(R.id.include_header)
+
+        val leftButton: ImageButton = headerView.findViewById(R.id.left_button)
+        leftButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
+        rightButton.visibility = View.GONE
+    }
+
+    /**
+     * リサイクルビューセットアップ
+     * [locatorList]を観測して変更があるたびに自動描画
+     */
     private fun setUpRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this.requireActivity())
         recyclerView.addItemDecoration(

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +37,9 @@ class CategoryListFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.category_list)
 
+        // ヘッダーセットアップ
+        setUpHeaderAction(view)
+
         var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
 
         addButton.setOnClickListener {
@@ -48,6 +53,28 @@ class CategoryListFragment : Fragment() {
         setUpRecyclerView()
     }
 
+
+    /**
+     * ヘッダーボタンセットアップ
+     * [LeftButton]：非表示(GONE)
+     * [RightButton]：設定画面遷移ボタン
+     */
+    private fun setUpHeaderAction(view: View) {
+        val headerView: ConstraintLayout = view.findViewById(R.id.include_header)
+        val leftButton: ImageButton = headerView.findViewById(R.id.left_button)
+        leftButton.visibility = View.GONE
+
+        val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
+        rightButton.setImageResource(R.drawable.button_settings)
+        rightButton.setOnClickListener {
+            // TODO: 設定画面へ遷移
+        }
+    }
+
+    /**
+     * リサイクルビューセットアップ
+     * [categoryList]を観測して変更があるたびに自動描画
+     */
     private fun setUpRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this.requireActivity())
         recyclerView.addItemDecoration(

@@ -6,6 +6,19 @@
     android:layout_height="wrap_content"
     android:padding="15dp">
 
+    <ImageButton
+        android:id="@+id/left_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="leftSideButton"
+        android:src="@drawable/button_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/textView"

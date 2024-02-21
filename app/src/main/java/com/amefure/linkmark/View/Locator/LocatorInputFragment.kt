@@ -43,57 +43,72 @@ class LocatorInputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 登録ボタンのセットアップ
-        setUpRegisterButton(view)
+        setUpHeaderAction(view)
+    }
+
+    /**
+     * ヘッダーボタンセットアップ
+     * [LeftButton]：backButton
+     * [RightButton]：登録処理ボタン
+     */
+    private fun setUpHeaderAction(view: View) {
+        val headerView: ConstraintLayout = view.findViewById(R.id.include_header)
+
+        val leftButton: ImageButton = headerView.findViewById(R.id.left_button)
+        leftButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
+        rightButton.setOnClickListener {
+            registerAction(view)
+        }
     }
 
     /**
      * Headerにある右側のボタンに登録処理を実装
      */
-    private fun setUpRegisterButton(view: View) {
+    private fun registerAction(view: View) {
         val inputTitleText: EditText = view.findViewById(R.id.title_edit_text)
         val inputUrlText: EditText = view.findViewById(R.id.url_edit_text)
         val inputMemoText: EditText = view.findViewById(R.id.memo_edit_text)
 
-        val registerButton: ImageButton = view.findViewById<ConstraintLayout>(R.id.include_header).findViewById(R.id.right_button)
-        registerButton.setOnClickListener {
-            val title: String = inputTitleText.text.toString()
-            val url: String = inputUrlText.text.toString()
-            val memo: String = inputMemoText.text.toString()
+        val title: String = inputTitleText.text.toString()
+        val url: String = inputUrlText.text.toString()
+        val memo: String = inputMemoText.text.toString()
 
-            isValidationEmptyFlag = false
-            isValidationUrlFlag = false
-            if (title.isEmpty()) {
-                isValidationEmptyFlag = true
-            }
-
-            if (!isValidURL(url)) {
-                isValidationUrlFlag = true
-            }
-
-            if (isValidationEmptyFlag || isValidationUrlFlag ) {
-                val dialog = CustomNotifyDialogFragment.newInstance( getString(R.string.dialog_title_notice), failedDialogMessage())
-                dialog.setOnButtonTappedListner(
-                    positiveListner =
-                    object : CustomNotifyDialogFragment.onPositiveButtonTappedListner{
-                        override fun onTapped() {
-                        }
-                    }
-                )
-                dialog.show(parentFragmentManager, "custom")
-
-                return@setOnClickListener
-            }
-
-            viewModel.insertLocator(
-                categoryId = categoryId,
-                title = title,
-                url = url,
-                memo = memo
-            )
-            closedKeyBoard()
-            parentFragmentManager.popBackStack()
+        isValidationEmptyFlag = false
+        isValidationUrlFlag = false
+        if (title.isEmpty()) {
+            isValidationEmptyFlag = true
         }
+
+        if (!isValidURL(url)) {
+            isValidationUrlFlag = true
+        }
+
+        if (isValidationEmptyFlag || isValidationUrlFlag ) {
+            val dialog = CustomNotifyDialogFragment.newInstance( getString(R.string.dialog_title_notice), failedDialogMessage())
+            dialog.setOnButtonTappedListner(
+                positiveListner =
+                object : CustomNotifyDialogFragment.onPositiveButtonTappedListner{
+                    override fun onTapped() {
+                    }
+                }
+            )
+            dialog.show(parentFragmentManager, "custom")
+
+            return@registerAction
+        }
+
+        viewModel.insertLocator(
+            categoryId = categoryId,
+            title = title,
+            url = url,
+            memo = memo
+        )
+        closedKeyBoard()
+        parentFragmentManager.popBackStack()
     }
 
     /**
