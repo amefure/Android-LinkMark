@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
-import com.amefure.linkmark.View.CustomNotifyDialogFragment
+import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 
 class LocatorInputFragment : Fragment() {
@@ -75,7 +75,7 @@ class LocatorInputFragment : Fragment() {
                 val dialog = CustomNotifyDialogFragment.newInstance( getString(R.string.dialog_title_notice), failedDialogMessage())
                 dialog.setOnButtonTappedListner(
                     positiveListner =
-                    object :CustomNotifyDialogFragment.onPositiveButtonTappedListner{
+                    object : CustomNotifyDialogFragment.onPositiveButtonTappedListner{
                         override fun onTapped() {
                         }
                     }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.WebView.ControlWebViewFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -66,12 +67,15 @@ class LocatorListFragment : Fragment() {
             DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
         )
         viewModel.locatorList.observe(this.requireActivity()) { it
-            Log.e("-------変化したよ", "url")
             val adapter = LocatorAdapter(it)
             adapter.setOnTapedListner(
                 object :LocatorAdapter.onTappedListner{
-                    override fun onTaped(url: String) {
-                        Log.e("-------", url)
+                    override fun onTapped(url: String) {
+                        parentFragmentManager.beginTransaction().apply {
+                            add(R.id.main_frame, ControlWebViewFragment.newInstance(url))
+                            addToBackStack(null)
+                            commit()
+                        }
                     }
                 }
             )

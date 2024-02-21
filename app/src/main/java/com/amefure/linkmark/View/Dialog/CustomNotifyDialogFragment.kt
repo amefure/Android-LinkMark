@@ -1,4 +1,4 @@
-package com.amefure.linkmark.View
+package com.amefure.linkmark.View.Dialog
 
 import android.app.AlertDialog
 import android.app.Dialog

@@ -30,7 +30,11 @@ class LocatorAdapter(locatorList: List<Locator>): RecyclerView.Adapter<LocatorAd
         holder.title.text = locator.title
         holder.memo.text = locator.memo
         holder.createdAt.text = df.format(locator.createdAt).toString()
-        holder.title.text = locator.title
+        holder.url.text = locator.url
+
+        holder.itemView.setOnClickListener {
+            listner.onTapped(locator.url)
+        }
     }
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -43,7 +47,7 @@ class LocatorAdapter(locatorList: List<Locator>): RecyclerView.Adapter<LocatorAd
     private lateinit var listner: onTappedListner
 
     interface onTappedListner {
-        fun onTaped(url: String)
+        fun onTapped(url: String)
     }
 
     /**
