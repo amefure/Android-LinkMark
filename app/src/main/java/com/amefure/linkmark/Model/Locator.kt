@@ -19,10 +19,10 @@ import java.util.Date
 )
 data class Locator (
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val title: String,
-    val url: String,
-    val memo: String,
-    val order: Int,
+    var title: String,
+    var url: String,
+    var memo: String,
+    var order: Int,
     @ColumnInfo(name = "created_at")
     val createdAt: Date,
     @ColumnInfo(name = "category_id")
