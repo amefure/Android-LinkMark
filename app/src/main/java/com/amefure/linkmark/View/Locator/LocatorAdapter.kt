@@ -7,8 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Locator
 import com.amefure.linkmark.R
-import com.amefure.linkmark.View.Category.CategoryAdapter
-import java.net.URL
 import java.text.SimpleDateFormat
 
 class LocatorAdapter(locatorList: List<Locator>): RecyclerView.Adapter<LocatorAdapter.MainViewHolder>() {

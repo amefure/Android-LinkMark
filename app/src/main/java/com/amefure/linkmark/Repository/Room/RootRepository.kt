@@ -47,6 +47,31 @@ class RootRepository (context: Context) {
         locatorDao.insertLocator(locator)
     }
 
+    // カテゴリ追加
+    public fun updateCategory(id: Int, name: String, color: String, order: Int) {
+        val category = Category(
+            id = id,
+            name = name,
+            color = color,
+            order = order
+        )
+        categoryDao.updateCategory(category)
+    }
+
+    // URL追加
+    public fun updateLocator(id: Int, categoryId: Int, title: String, url: String, memo: String, order: Int, createdAt: Date) {
+        val locator = Locator(
+            id = id,
+            title = title,
+            url = url,
+            memo = memo,
+            order = order,
+            createdAt = createdAt,
+            categoryId = categoryId,
+        )
+        locatorDao.updateLocator(locator)
+    }
+
     // カテゴリ取得
     public fun fetchAllCategory(callback: (List<Category>) -> Unit) {
         categoryDao.fetchAllCategory()
@@ -70,6 +95,15 @@ class RootRepository (context: Context) {
                     callback(locators)
                 }
             ).addTo(compositeDisposable)
+    }
+
+    // リストの個数取得
+    public fun getCategoryCount(): Int {
+        return categoryDao.getCount()
+    }
+
+    public fun getLocatorCount(categoryId: Int): Int {
+        return locatorDao.getCount(categoryId)
     }
 
     // カテゴリ削除

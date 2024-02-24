@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.amefure.linkmark.Model.Locator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class LocatorViewModel(app: Application): RootViewModel(app) {
 
@@ -17,14 +18,14 @@ class LocatorViewModel(app: Application): RootViewModel(app) {
         // データの取得は非同期で
         viewModelScope.launch(Dispatchers.IO) {  // データ取得はIOスレッドで
             rootRepository.fetchAllLocator(categoryId) {
-                _locatorList.postValue(it)  // 本来はDBやCacheから取得
+                _locatorList.postValue(it.sortedBy { it.order })  // 本来はDBやCacheから取得
             }
         }
     }
 
     public fun insertLocator(categoryId: Int, title: String, url: String, memo: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val order = _locatorList.value?.size ?: 0
+            val order = rootRepository.getLocatorCount(categoryId)
             rootRepository.insertLocator(
                 categoryId = categoryId,
                 title = title,
@@ -36,11 +37,18 @@ class LocatorViewModel(app: Application): RootViewModel(app) {
         }
     }
 
-//    public fun updateCategory(id: Int, name:String, returnFlag: Boolean ,current: Boolean, amountSum: Long) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            rootRepository.updateBorrower(id,name,returnFlag,current, amountSum)
-//        }
-//    }
+    public fun updateLocator(id: Int, categoryId: Int, title: String, url: String, memo: String, order: Int, createdAt: Date) {
+        viewModelScope.launch(Dispatchers.IO) {
+            rootRepository.updateLocator(
+                id = id,
+                categoryId = categoryId,
+                title = title,
+                url = url,
+                memo = memo,
+                order = order,
+                createdAt = createdAt)
+        }
+    }
 
     public fun deleteLocator(locator: Locator) {
         viewModelScope.launch(Dispatchers.IO) {

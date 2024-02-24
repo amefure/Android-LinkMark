@@ -9,9 +9,12 @@ import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchHelper
 import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
@@ -84,11 +87,11 @@ class CategoryListFragment : Fragment() {
             DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
         )
 
-        viewModel.categoryList.observe(this.requireActivity()) { it
-            val adapter = CategoryAdapter(it)
-            adapter.setOnTapedListner(
-                object :CategoryAdapter.onTappedListner{
-                    override fun onTaped(categoryId: Int) {
+        viewModel.categoryList.observe(this.requireActivity()) {
+            val adapter = CategoryAdapter(viewModel, it)
+            adapter.setOnTappedListner(
+                object : CategoryAdapter.onTappedListner{
+                    override fun onTapped(categoryId: Int) {
                         parentFragmentManager.beginTransaction().apply {
                             add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))
                             addToBackStack(null)
@@ -97,6 +100,9 @@ class CategoryListFragment : Fragment() {
                     }
                 }
             )
+            val swipeToCallback = CategoryItemTouchHelper(adapter)
+            val itemTouchHelper = ItemTouchHelper(swipeToCallback)
+            itemTouchHelper.attachToRecyclerView(recyclerView)
             recyclerView.adapter = adapter
         }
     }

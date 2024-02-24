@@ -1,4 +1,4 @@
-package com.amefure.linkmark.View.Category
+package com.amefure.linkmark.View.Category.RecycleViewSetting
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.AppThemaColor
 import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.R
+import com.amefure.linkmark.ViewModel.CategoryViewModel
 
-class CategoryAdapter(categoryList: List<Category>) :RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() {
+class CategoryAdapter(private val viewModel: CategoryViewModel, categoryList: List<Category>) :RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() {
     private val _categoryList: MutableList<Category> = categoryList.toMutableList()
     override fun getItemCount(): Int = _categoryList.size
 
@@ -33,11 +34,11 @@ class CategoryAdapter(categoryList: List<Category>) :RecyclerView.Adapter<Catego
         }
         holder.color.setBackgroundResource(drawable)
         holder.name.text = category.name
-        holder.count.text = "3"
+        holder.count.text = category.order.toString()
 
-        //　タップイベントを追加Z
+        //　タップイベントを追加
         holder.itemView.setOnClickListener {
-            listener.onTaped(category.id)
+            listener.onTapped(category.id)
         }
     }
 
@@ -49,16 +50,23 @@ class CategoryAdapter(categoryList: List<Category>) :RecyclerView.Adapter<Catego
 
     private lateinit var listener: onTappedListner
     interface onTappedListner {
-        fun onTaped(categoryId: Int)
+        fun onTapped(categoryId: Int)
     }
 
     /**
      * リスナーのセットは使用するFragmentから呼び出して行う
      * リスナーオブジェクトの中に処理が含まれて渡される
      */
-    public fun setOnTapedListner(listener: onTappedListner) {
+    public fun setOnTappedListner(listener: onTappedListner) {
         // 定義した変数listenerに実行したい処理を引数で渡す（CategoryListFragmentで渡している）
         this.listener = listener
+    }
+
+    public fun changeOrder(fromPos: Int, toPos: Int) {
+        if (fromPos < 0 || fromPos >= _categoryList.size) { return }
+        var category = _categoryList[fromPos]
+        category.order = toPos
+        viewModel.changeOrder(source = fromPos, destination = toPos)
     }
 }
 

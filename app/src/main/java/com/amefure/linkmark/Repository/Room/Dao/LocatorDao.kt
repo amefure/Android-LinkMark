@@ -21,6 +21,9 @@ interface LocatorDao {
     @Query("SELECT * FROM locator_table WHERE category_id = :categoryId")
     fun fetchAllLocator(categoryId: Int): Flowable<List<Locator>>
 
+    @Query("SELECT COUNT(*) FROM locator_table WHERE category_id = :categoryId")
+    fun getCount(categoryId: Int): Int
+
     @Delete
     fun deleteLocator(locator: Locator)
 }
