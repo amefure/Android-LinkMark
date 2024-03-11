@@ -1,6 +1,7 @@
 package com.amefure.linkmark.View.Category
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,12 @@ import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
-import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchHelper
+import com.amefure.linkmark.View.Category.RecycleViewSetting.ItemTouchListener
+import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
 import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
@@ -92,6 +93,7 @@ class CategoryListFragment : Fragment() {
             adapter.setOnTappedListner(
                 object : CategoryAdapter.onTappedListner{
                     override fun onTapped(categoryId: Int) {
+                        Log.e("------","""""")
                         parentFragmentManager.beginTransaction().apply {
                             add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))
                             addToBackStack(null)
@@ -100,9 +102,24 @@ class CategoryListFragment : Fragment() {
                     }
                 }
             )
-            val swipeToCallback = CategoryItemTouchHelper(adapter)
-            val itemTouchHelper = ItemTouchHelper(swipeToCallback)
-            itemTouchHelper.attachToRecyclerView(recyclerView)
+
+            val itemTouchListener = ItemTouchListener()
+            itemTouchListener.setOnTappedListner(
+                object : ItemTouchListener.onTappedListner{
+                    override fun onTapped(categoryId: Int) {
+                        Log.e("------","""""")
+                        parentFragmentManager.beginTransaction().apply {
+                            add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))
+                            addToBackStack(null)
+                            commit()
+                        }
+                    }
+                }
+            )
+            recyclerView.addOnItemTouchListener(itemTouchListener)
+
+            OneTouchHelperCallback(recyclerView).build()
+
             recyclerView.adapter = adapter
         }
     }

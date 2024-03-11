@@ -7,59 +7,73 @@
     android:background="@color/ex_light_gray"
     android:padding="10dp">
 
+    <include
+        layout="@layout/row_background"
+        android:background="@android:color/white" />
 
-    <TextView
-        android:id="@+id/locator_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:text="Webエンジニア学習部屋"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/foregroundKnobLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:foreground="?android:attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/locator_memo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="8dp"
-        android:lines="2"
-        android:text="MEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMO"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locator_title"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/locator_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="Webエンジニア学習部屋"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/locator_createdAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="2024年2月17日"
-        android:textSize="11sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/locator_url"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/locator_memo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:lines="2"
+            android:text="MEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMOMEMO"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/locator_title"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/locator_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:text="https://appdev-room.com/"
-        android:textSize="11sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/locator_createdAt"
-        app:layout_constraintTop_toBottomOf="@+id/locator_memo" />
+        <TextView
+            android:id="@+id/locator_createdAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="2024年2月17日"
+            android:textSize="11sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/locator_url"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/locator_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:text="https://appdev-room.com/"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/locator_createdAt"
+            app:layout_constraintTop_toBottomOf="@+id/locator_memo" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

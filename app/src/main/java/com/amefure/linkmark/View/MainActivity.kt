@@ -3,6 +3,7 @@ package com.amefure.linkmark.View
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import com.amefure.linkmark.R
