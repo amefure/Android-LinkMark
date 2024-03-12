@@ -1,11 +1,7 @@
 package com.amefure.linkmark.View.Category
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,18 +11,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import com.amefure.linkmark.Model.AppThemaColor
+import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
-import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 class CategoryInputFragment : Fragment() {
 
     private var categoryId: Int? = null
+    private var category: Category? = null
 
     private val viewModel: CategoryViewModel by viewModels()
 
@@ -62,6 +57,7 @@ class CategoryInputFragment : Fragment() {
         greenButton = view.findViewById(R.id.select_green_button)
         purpleButton = view.findViewById(R.id.select_purple_button)
 
+        // Updateなら
         if (categoryId != null) {
             subscribeCategory()
             viewModel.fetchAllCategorys()
@@ -79,7 +75,7 @@ class CategoryInputFragment : Fragment() {
      */
     private fun subscribeCategory() {
         viewModel.categoryList.observe(this.requireActivity()) {
-            // 初期値格納
+            // Update時の初期値格納
             setUpCategoryView()
         }
     }
@@ -89,14 +85,14 @@ class CategoryInputFragment : Fragment() {
      */
     private fun setUpCategoryView() {
         categoryId?.let {
-            var category = viewModel.categoryList.value?.let {
+            category = viewModel.categoryList.value?.let {
                 it.first { it.id == categoryId }
             }
             category?.let {
                 inputNameText.setText(it.name)
-                selectedColor = category.color
+                selectedColor = it.color
 
-               when(category.color) {
+               when(it.color) {
                     AppThemaColor.RED.name -> redButton.alpha = 0.5f
                     AppThemaColor.YELLOW.name -> yellowButton.alpha = 0.5f
                     AppThemaColor.BLUE.name -> blueButton.alpha = 0.5f
@@ -134,7 +130,13 @@ class CategoryInputFragment : Fragment() {
     private fun registerAction() {
         val name: String = inputNameText.text.toString()
         if (!name.isEmpty()) {
-            viewModel.insertCategory(name, selectedColor)
+            category?.let {
+                // Update
+                viewModel.updateCategory(it.id, name, selectedColor, it.order)
+            }?: {
+                // Create
+                viewModel.insertCategory(name, selectedColor)
+            }
             closedKeyBoard()
             parentFragmentManager.popBackStack()
         } else {
@@ -181,6 +183,9 @@ class CategoryInputFragment : Fragment() {
         }
     }
 
+    /**
+     * 選択状態リセット
+     */
     private fun resetSelectColorButton() {
         redButton.alpha = 1f
         yellowButton.alpha = 1f
