@@ -68,7 +68,7 @@
     <LinearLayout
         android:id="@+id/color_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
@@ -90,7 +90,8 @@
             android:id="@+id/select_red_button"
             android:layout_width="45dp"
             android:layout_height="48dp"
-            android:background="@drawable/circle_red" />
+            android:background="@drawable/ex_circle_shape"
+            android:backgroundTint="@color/ex_red"/>
 
         <Space
             android:layout_width="wrap_content"
@@ -101,7 +102,8 @@
             android:id="@+id/select_yellow_button"
             android:layout_width="45dp"
             android:layout_height="48dp"
-            android:background="@drawable/circle_yellow" />
+            android:background="@drawable/ex_circle_shape"
+            android:backgroundTint="@color/ex_yellow"/>
 
         <Space
             android:layout_width="wrap_content"
@@ -113,7 +115,8 @@
             android:id="@+id/select_blue_button"
             android:layout_width="45dp"
             android:layout_height="48dp"
-            android:background="@drawable/circle_blue" />
+            android:background="@drawable/ex_circle_shape"
+            android:backgroundTint="@color/ex_blue" />
 
         <Space
             android:layout_width="wrap_content"
@@ -125,7 +128,8 @@
             android:id="@+id/select_green_button"
             android:layout_width="45dp"
             android:layout_height="48dp"
-            android:background="@drawable/circle_green" />
+            android:background="@drawable/ex_circle_shape"
+            android:backgroundTint="@color/ex_green"/>
 
         <Space
             android:layout_width="wrap_content"
@@ -137,13 +141,13 @@
             android:id="@+id/select_purple_button"
             android:layout_width="45dp"
             android:layout_height="48dp"
-            android:background="@drawable/circle_purple" />
+            android:background="@drawable/ex_circle_shape"
+            android:backgroundTint="@color/ex_purple"/>
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-
-
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
