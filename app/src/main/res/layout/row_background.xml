@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/infoButton"
+            android:id="@+id/editButton"
             android:layout_width="65dp"
             android:layout_height="match_parent"
             android:background="@color/ex_positive"
