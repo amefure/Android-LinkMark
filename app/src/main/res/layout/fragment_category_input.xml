@@ -142,7 +142,7 @@
             android:layout_width="45dp"
             android:layout_height="48dp"
             android:background="@drawable/ex_circle_shape"
-            android:backgroundTint="@color/ex_purple"/>
+            android:backgroundTint="@color/ex_purple" />
 
         <Space
             android:layout_width="wrap_content"

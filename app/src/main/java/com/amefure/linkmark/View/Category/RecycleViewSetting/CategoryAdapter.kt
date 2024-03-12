@@ -1,10 +1,12 @@
 package com.amefure.linkmark.View.Category.RecycleViewSetting
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.AppThemaColor
 import com.amefure.linkmark.Model.Category
@@ -12,7 +14,11 @@ import com.amefure.linkmark.R
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 import java.util.Collections
 
-class CategoryAdapter(private val viewModel: CategoryViewModel,private val categoryList: List<Category>) :RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() , OneTouchHelperCallback.DragAdapter {
+class CategoryAdapter(
+    private val viewModel: CategoryViewModel,
+    private val categoryList: List<Category>,
+    private val context: Context
+    ) :RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() , OneTouchHelperCallback.DragAdapter {
     private val _categoryList: MutableList<Category> = categoryList.toMutableList()
     override fun getItemCount(): Int = _categoryList.size
 
@@ -34,32 +40,35 @@ class CategoryAdapter(private val viewModel: CategoryViewModel,private val categ
             viewHolder.foregroundKnobLayout.setOnClickListener {
                 val position = viewHolder.adapterPosition
             }
-
-            viewHolder.deleteButton.setOnClickListener {
-                val position = viewHolder.adapterPosition
-                notifyItemRemoved(position)
-            }
         }
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val category = _categoryList[position]
 
-        val drawable = when(category.color) {
-            AppThemaColor.RED.name -> R.drawable.circle_red
-            AppThemaColor.YELLOW.name -> R.drawable.circle_yellow
-            AppThemaColor.BLUE.name -> R.drawable.circle_blue
-            AppThemaColor.GREEN.name -> R.drawable.circle_green
-            AppThemaColor.PURPLE.name -> R.drawable.circle_purple
-            else -> R.drawable.circle_red
+        val color = when(category.color) {
+            AppThemaColor.RED.name -> R.color.ex_red
+            AppThemaColor.YELLOW.name -> R.color.ex_yellow
+            AppThemaColor.BLUE.name -> R.color.ex_blue
+            AppThemaColor.GREEN.name -> R.color.ex_green
+            AppThemaColor.PURPLE.name -> R.color.ex_purple
+            else -> R.color.ex_red
         }
-        holder.color.setBackgroundResource(drawable)
+        holder.color.backgroundTintList = ContextCompat.getColorStateList(context, color)
         holder.name.text = category.name
         holder.count.text = category.order.toString()
 
-        //　タップイベントを追加
-        holder.itemView.setOnClickListener {
-            listener.onTapped(category.id)
+        holder.editButton.setOnClickListener {
+            listener.onEditTapped(category.id)
+        }
+
+        holder.deleteButton.setOnClickListener {
+            listener.onDeleteTapped(category) {
+                if (it) {
+                    val position = holder.adapterPosition
+                    notifyItemRemoved(position)
+                }
+            }
         }
     }
 
@@ -68,8 +77,9 @@ class CategoryAdapter(private val viewModel: CategoryViewModel,private val categ
         override val foregroundKnobLayout: ViewGroup = itemView.findViewById(R.id.foregroundKnobLayout)
         override val backgroundLeftButtonLayout: ViewGroup = itemView.findViewById(R.id.backgroundLeftButtonLayout)
         override val backgroundRightButtonLayout: ViewGroup = itemView.findViewById(R.id.backgroundRightButtonLayout)
-        override val canRemoveOnSwipingFromRight: Boolean get() = true
+        override val canRemoveOnSwipingFromRight: Boolean get() = false
 
+        val editButton: ImageButton = itemView.findViewById(R.id.editButton)
         val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
 
         val color: View = itemView.findViewById(R.id.category_color)
@@ -79,7 +89,8 @@ class CategoryAdapter(private val viewModel: CategoryViewModel,private val categ
 
     private lateinit var listener: onTappedListner
     interface onTappedListner {
-        fun onTapped(categoryId: Int)
+        fun onEditTapped(categoryId: Int)
+        fun onDeleteTapped(category: Category, completion: (result: Boolean) -> Unit)
     }
 
     /**

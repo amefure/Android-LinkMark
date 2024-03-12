@@ -6,4 +6,6 @@
     <string name="dialog_msg_validation_name">・カテゴリ名は必須入力です。</string>
     <string name="dialog_msg_validation_title">・タイトルは必須入力です。</string>
     <string name="dialog_msg_validation_url">・有効なリンクを入力してください。</string>
+
+    <string name="dialog_msg_delete_confirm">「%1$s」を本当に削除しますか？\n削除するとリンクも全てなくなります。</string>
 </resources>

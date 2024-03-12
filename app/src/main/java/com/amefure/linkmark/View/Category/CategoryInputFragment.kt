@@ -1,7 +1,11 @@
 package com.amefure.linkmark.View.Category
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +15,36 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import com.amefure.linkmark.Model.AppThemaColor
+import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
+import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 class CategoryInputFragment : Fragment() {
+
+    private var categoryId: Int? = null
 
     private val viewModel: CategoryViewModel by viewModels()
 
     private var selectedColor: String = AppThemaColor.RED.name
+
+    private lateinit var inputNameText: EditText
+    private lateinit var redButton: Button
+    private lateinit var yellowButton: Button
+    private lateinit var blueButton: Button
+    private lateinit var greenButton: Button
+    private lateinit var purpleButton: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            categoryId = it.getInt(AppArgKey.ARG_CATEGORY_ID_KEY)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +55,58 @@ class CategoryInputFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inputNameText = view.findViewById(R.id.name_edit_text)
+        redButton = view.findViewById(R.id.select_red_button)
+        yellowButton = view.findViewById(R.id.select_yellow_button)
+        blueButton = view.findViewById(R.id.select_blue_button)
+        greenButton = view.findViewById(R.id.select_green_button)
+        purpleButton = view.findViewById(R.id.select_purple_button)
+
+        if (categoryId != null) {
+            subscribeCategory()
+            viewModel.fetchAllCategorys()
+        }
+
         // ヘッダーセットアップ
         setUpHeaderAction(view)
         // カラー選択ボタン押下時のセットアップ
         setUpColorButton(view)
     }
 
+
+    /**
+     * カテゴリリスト観測
+     */
+    private fun subscribeCategory() {
+        viewModel.categoryList.observe(this.requireActivity()) {
+            // 初期値格納
+            setUpCategoryView()
+        }
+    }
+
+    /**
+     * Updateの場合にUI更新
+     */
+    private fun setUpCategoryView() {
+        categoryId?.let {
+            var category = viewModel.categoryList.value?.let {
+                it.first { it.id == categoryId }
+            }
+            category?.let {
+                inputNameText.setText(it.name)
+                selectedColor = category.color
+
+               when(category.color) {
+                    AppThemaColor.RED.name -> redButton.alpha = 0.5f
+                    AppThemaColor.YELLOW.name -> yellowButton.alpha = 0.5f
+                    AppThemaColor.BLUE.name -> blueButton.alpha = 0.5f
+                    AppThemaColor.GREEN.name -> greenButton.alpha = 0.5f
+                    AppThemaColor.PURPLE.name -> purpleButton.alpha = 0.5f
+                    else -> redButton.alpha = 0.5f
+                }
+            }
+        }
+    }
 
     /**
      * ヘッダーボタンセットアップ
@@ -54,16 +124,14 @@ class CategoryInputFragment : Fragment() {
 
         val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
         rightButton.setOnClickListener {
-            registerAction(view)
+            registerAction()
         }
     }
 
     /**
      * Headerにある右側のボタンに登録処理を実装
      */
-    private fun registerAction(view: View) {
-        val inputNameText: EditText = view.findViewById(R.id.name_edit_text)
-
+    private fun registerAction() {
         val name: String = inputNameText.text.toString()
         if (!name.isEmpty()) {
             viewModel.insertCategory(name, selectedColor)
@@ -86,27 +154,39 @@ class CategoryInputFragment : Fragment() {
      * カラー選択ボタン押下時の処理
      */
     private fun setUpColorButton(view: View) {
-        val redButton: Button = view.findViewById(R.id.select_red_button)
-        val yellowButton: Button = view.findViewById(R.id.select_yellow_button)
-        val blueButton: Button = view.findViewById(R.id.select_blue_button)
-        val greenButton: Button = view.findViewById(R.id.select_green_button)
-        val purpleButton: Button = view.findViewById(R.id.select_purple_button)
-
         redButton.setOnClickListener {
+            resetSelectColorButton()
+            redButton.alpha = 0.5f
             selectedColor = AppThemaColor.RED.name
         }
         yellowButton.setOnClickListener {
+            resetSelectColorButton()
+            yellowButton.alpha = 0.5f
             selectedColor = AppThemaColor.YELLOW.name
         }
         blueButton.setOnClickListener {
+            resetSelectColorButton()
+            blueButton.alpha = 0.5f
             selectedColor = AppThemaColor.BLUE.name
         }
         greenButton.setOnClickListener {
+            resetSelectColorButton()
+            greenButton.alpha = 0.5f
             selectedColor = AppThemaColor.GREEN.name
         }
         purpleButton.setOnClickListener {
+            resetSelectColorButton()
+            purpleButton.alpha = 0.5f
             selectedColor = AppThemaColor.PURPLE.name
         }
+    }
+
+    private fun resetSelectColorButton() {
+        redButton.alpha = 1f
+        yellowButton.alpha = 1f
+        blueButton.alpha = 1f
+        greenButton.alpha = 1f
+        purpleButton.alpha = 1f
     }
 
 
@@ -116,5 +196,20 @@ class CategoryInputFragment : Fragment() {
     private fun closedKeyBoard() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
+
+    /**
+     * 引数を渡すため
+     * シングルトンインスタンス生成
+     */
+    companion object {
+        @JvmStatic
+        fun newInstance(categoryId: Int) =
+            CategoryInputFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(AppArgKey.ARG_CATEGORY_ID_KEY, categoryId)
+                }
+            }
     }
 }

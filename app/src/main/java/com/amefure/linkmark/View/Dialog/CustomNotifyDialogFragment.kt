@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
 
 class CustomNotifyDialogFragment : DialogFragment() {
 
@@ -23,30 +24,24 @@ class CustomNotifyDialogFragment : DialogFragment() {
     /**
      * 引数で受け取る処理
      */
-    private var positiveListner: onPositiveButtonTappedListner? = null
-    private var negativeListner: onNegativeButtonTappedListner? = null
+    private var listener: onTappedListner? = null
 
     /**
      * ポジティブボタンアクション
-     */
-    interface onPositiveButtonTappedListner {
-        fun onTapped()
-    }
-
-    /**
      * ネガティブボタンアクション
      */
-    interface onNegativeButtonTappedListner {
-        fun onTapped()
+    interface onTappedListner {
+        fun onPositiveButtonTapped()
+        fun onNegativeButtonTapped()
     }
 
     /**
      * リスナーのセットは使用するFragmentから呼び出して行う
      * リスナーオブジェクトの中に処理が含まれて渡される
      */
-    public fun setOnButtonTappedListner(positiveListner: onPositiveButtonTappedListner? = null, negativeListner: onNegativeButtonTappedListner? = null) {
-        this.positiveListner = positiveListner
-        this.negativeListner = negativeListner
+    public fun setOnTappedListner(listener: onTappedListner? = null) {
+        // 定義した変数listenerに実行したい処理を引数で渡す（CategoryListFragmentで渡している）
+        this.listener = listener
     }
 
     /**
@@ -99,13 +94,13 @@ class CustomNotifyDialogFragment : DialogFragment() {
 
         // ポジティブボタンアクション実装
         positiveButton.setOnClickListener {
-            positiveListner?.onTapped()
+            listener?.onPositiveButtonTapped()
             dismiss()
         }
 
         // ネガティブボタンアクション実装
         negativeButton.setOnClickListener {
-            negativeListner?.onTapped()
+            listener?.onNegativeButtonTapped()
             dismiss()
         }
 

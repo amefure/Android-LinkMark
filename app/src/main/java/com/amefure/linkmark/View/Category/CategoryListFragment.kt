@@ -1,7 +1,6 @@
 package com.amefure.linkmark.View.Category
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
 import com.amefure.linkmark.View.Category.RecycleViewSetting.ItemTouchListener
 import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
+import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
@@ -89,16 +90,35 @@ class CategoryListFragment : Fragment() {
         )
 
         viewModel.categoryList.observe(this.requireActivity()) {
-            val adapter = CategoryAdapter(viewModel, it)
+            val adapter = CategoryAdapter(viewModel, it, this.requireContext())
             adapter.setOnTappedListner(
-                object : CategoryAdapter.onTappedListner{
-                    override fun onTapped(categoryId: Int) {
-                        Log.e("------","""""")
+                object : CategoryAdapter.onTappedListner {
+                    override fun onEditTapped(categoryId: Int) {
                         parentFragmentManager.beginTransaction().apply {
-                            add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))
+                            add(R.id.main_frame, CategoryInputFragment.newInstance(categoryId))
                             addToBackStack(null)
                             commit()
                         }
+                    }
+
+                    override fun onDeleteTapped(category: Category, completion: (result: Boolean) -> Unit) {
+                        val dialog = CustomNotifyDialogFragment.newInstance(
+                            title = getString(R.string.dialog_title_notice),
+                            msg = getString(R.string.dialog_msg_delete_confirm, category.name),
+                            showPositive = true,
+                            showNegative = true
+                        )
+                        dialog.setOnTappedListner(
+                            object : CustomNotifyDialogFragment.onTappedListner {
+                                override fun onNegativeButtonTapped() { }
+
+                                override fun onPositiveButtonTapped() {
+                                    viewModel.deleteCategory(category)
+                                    completion(true)
+                                }
+                            }
+                        )
+                        dialog.show(parentFragmentManager, "ValidateNameDialog")
                     }
                 }
             )
@@ -107,7 +127,6 @@ class CategoryListFragment : Fragment() {
             itemTouchListener.setOnTappedListner(
                 object : ItemTouchListener.onTappedListner{
                     override fun onTapped(categoryId: Int) {
-                        Log.e("------","""""")
                         parentFragmentManager.beginTransaction().apply {
                             add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))
                             addToBackStack(null)
