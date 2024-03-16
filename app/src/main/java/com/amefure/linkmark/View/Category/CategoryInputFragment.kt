@@ -133,7 +133,7 @@ class CategoryInputFragment : Fragment() {
             category?.let {
                 // Update
                 viewModel.updateCategory(it.id, name, selectedColor, it.order)
-            }?: {
+            }?: run {
                 // Create
                 viewModel.insertCategory(name, selectedColor)
             }
