@@ -1,4 +1,4 @@
-package com.amefure.linkmark.View.Locator
+package com.amefure.linkmark.View.Locator.RecycleViewSetting
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.Model.Locator
 import com.amefure.linkmark.R
-import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
 import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 import java.text.SimpleDateFormat
@@ -25,6 +24,14 @@ class LocatorAdapter(
     private val _locatorList: MutableList<Locator> = locatorList.toMutableList()
 
     override fun getItemCount(): Int = _locatorList.size
+
+    public fun getItemAtPosition(position: Int) : Locator? {
+        if (position < 0 || position >= _locatorList.size) {
+            return null
+        }
+        val item = _locatorList[position]
+        return item
+    }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(locatorList, fromPosition, toPosition)

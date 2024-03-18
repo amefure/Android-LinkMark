@@ -12,15 +12,16 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.Model.Locator
 import com.amefure.linkmark.R
-import com.amefure.linkmark.View.Category.CategoryInputFragment
-import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchListener
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
+import com.amefure.linkmark.View.Locator.RecycleViewSetting.LocatorAdapter
+import com.amefure.linkmark.View.Locator.RecycleViewSetting.LocatorItemTouchListener
 import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
+import com.amefure.linkmark.View.WebView.ControlWebViewFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -138,17 +139,20 @@ class LocatorListFragment : Fragment() {
                     }
                 }
             )
-//            adapter.setOnTapedListner(
-//                object :LocatorAdapter.onTappedListner{
-//                    override fun onTapped(url: String) {
-//                        parentFragmentManager.beginTransaction().apply {
-//                            add(R.id.main_frame, ControlWebViewFragment.newInstance(url))
-//                            addToBackStack(null)
-//                            commit()
-//                        }
-//                    }
-//                }
-//            )
+            val itemTouchListener = LocatorItemTouchListener()
+            itemTouchListener.setOnTappedListner(
+                object : LocatorItemTouchListener.onTappedListner{
+                    override fun onTapped(url: String) {
+                        parentFragmentManager.beginTransaction().apply {
+                            add(R.id.main_frame, ControlWebViewFragment.newInstance(url))
+                            addToBackStack(null)
+                            commit()
+                        }
+                    }
+                }
+            )
+            recyclerView.addOnItemTouchListener(itemTouchListener)
+
             OneTouchHelperCallback(recyclerView).build()
 
             recyclerView.adapter = adapter
