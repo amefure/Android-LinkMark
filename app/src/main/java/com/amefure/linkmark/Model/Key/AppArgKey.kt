@@ -5,6 +5,7 @@ class AppArgKey {
 
         // Locator/CategoryInput
         public const val ARG_CATEGORY_ID_KEY = "ARG_CATEGORY_ID_KEY"
+        public const val ARG_CATEGORY_NAME_KEY = "ARG_CATEGORY_NAME_KEY"
 
         // WebView
         public const val ARG_URL_KEY = "ARG_URL_KEY"

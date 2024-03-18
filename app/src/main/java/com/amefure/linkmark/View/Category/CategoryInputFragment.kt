@@ -2,6 +2,7 @@ package com.amefure.linkmark.View.Category
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.ViewModel.CategoryViewModel
+import io.reactivex.Observer
+
 class CategoryInputFragment : Fragment() {
 
     private var categoryId: Int? = null
@@ -74,7 +77,7 @@ class CategoryInputFragment : Fragment() {
      * カテゴリリスト観測
      */
     private fun subscribeCategory() {
-        viewModel.categoryList.observe(this.requireActivity()) {
+        viewModel.categoryList.observe(viewLifecycleOwner) {
             // Update時の初期値格納
             setUpCategoryView()
         }
@@ -115,7 +118,7 @@ class CategoryInputFragment : Fragment() {
         val leftButton: ImageButton = headerView.findViewById(R.id.left_button)
         leftButton.setOnClickListener {
             closedKeyBoard()
-            parentFragmentManager.popBackStack()
+            parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
         val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
@@ -138,7 +141,7 @@ class CategoryInputFragment : Fragment() {
                 viewModel.insertCategory(name, selectedColor)
             }
             closedKeyBoard()
-            parentFragmentManager.popBackStack()
+            parentFragmentManager.beginTransaction().remove(this).commit()
         } else {
             val dialog = CustomNotifyDialogFragment.newInstance(
                 title = getString(R.string.dialog_title_notice),

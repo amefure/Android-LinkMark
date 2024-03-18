@@ -18,7 +18,7 @@ class CategoryAdapter(
     private val viewModel: CategoryViewModel,
     private val categoryList: List<Category>,
     private val context: Context
-    ) :RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() , OneTouchHelperCallback.DragAdapter {
+    ) :RecyclerView.Adapter<CategoryAdapter.MainViewHolder>(), OneTouchHelperCallback.DragAdapter {
     private val _categoryList: MutableList<Category> = categoryList.toMutableList()
     override fun getItemCount(): Int = _categoryList.size
 
@@ -55,7 +55,7 @@ class CategoryAdapter(
             else -> R.color.ex_red
         }
         holder.color.backgroundTintList = ContextCompat.getColorStateList(context, color)
-        holder.name.text = category.name
+        holder.name.text = category.name.take(13)
         holder.count.text = category.order.toString()
 
         holder.editButton.setOnClickListener {
@@ -72,7 +72,7 @@ class CategoryAdapter(
         }
     }
 
-    class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) , OneTouchHelperCallback.SwipeViewHolder {
+    class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), OneTouchHelperCallback.SwipeViewHolder {
 
         override val foregroundKnobLayout: ViewGroup = itemView.findViewById(R.id.foregroundKnobLayout)
         override val backgroundLeftButtonLayout: ViewGroup = itemView.findViewById(R.id.backgroundLeftButtonLayout)

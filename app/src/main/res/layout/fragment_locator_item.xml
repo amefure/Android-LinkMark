@@ -9,13 +9,13 @@
 
     <include
         layout="@layout/row_background"
-        android:background="@android:color/white" />
+        android:background="@color/ex_light_gray" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/foregroundKnobLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@color/ex_light_gray"
         android:foreground="?android:attr/selectableItemBackground">
 
         <TextView
@@ -71,9 +71,6 @@
             app:layout_constraintStart_toEndOf="@+id/locator_createdAt"
             app:layout_constraintTop_toBottomOf="@+id/locator_memo" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

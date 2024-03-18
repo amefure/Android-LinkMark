@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
-import com.amefure.linkmark.View.Category.RecycleViewSetting.ItemTouchListener
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchListener
 import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.View.Locator.LocatorListFragment
@@ -89,14 +89,13 @@ class CategoryListFragment : Fragment() {
             DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
         )
 
-        viewModel.categoryList.observe(this.requireActivity()) {
+        viewModel.categoryList.observe(viewLifecycleOwner) {
             val adapter = CategoryAdapter(viewModel, it, this.requireContext())
             adapter.setOnTappedListner(
                 object : CategoryAdapter.onTappedListner {
                     override fun onEditTapped(categoryId: Int) {
                         parentFragmentManager.beginTransaction().apply {
                             add(R.id.main_frame, CategoryInputFragment.newInstance(categoryId))
-                            addToBackStack(null)
                             commit()
                         }
                     }
@@ -123,12 +122,12 @@ class CategoryListFragment : Fragment() {
                 }
             )
 
-            val itemTouchListener = ItemTouchListener()
+            val itemTouchListener = CategoryItemTouchListener()
             itemTouchListener.setOnTappedListner(
-                object : ItemTouchListener.onTappedListner{
-                    override fun onTapped(categoryId: Int) {
+                object : CategoryItemTouchListener.onTappedListner{
+                    override fun onTapped(categoryId: Int, name: String) {
                         parentFragmentManager.beginTransaction().apply {
-                            add(R.id.main_frame, LocatorListFragment.newInstance(categoryId = categoryId))
+                            add(R.id.main_frame, LocatorListFragment.newInstance(categoryId, name))
                             addToBackStack(null)
                             commit()
                         }

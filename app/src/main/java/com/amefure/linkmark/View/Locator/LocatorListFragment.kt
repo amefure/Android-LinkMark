@@ -7,14 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.Category.CategoryInputFragment
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchListener
+import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
+import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.View.WebView.ControlWebViewFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
@@ -24,6 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class LocatorListFragment : Fragment() {
 
     private var categoryId: Int = 0
+    private var categoryName: String = ""
 
     private val viewModel: LocatorViewModel by viewModels()
 
@@ -34,6 +42,7 @@ class LocatorListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             categoryId = it.getInt(AppArgKey.ARG_CATEGORY_ID_KEY)
+            categoryName = it.getString(AppArgKey.ARG_CATEGORY_NAME_KEY).toString()
         }
     }
 
@@ -46,11 +55,13 @@ class LocatorListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
+        val categoryNameView: TextView = view.findViewById(R.id.category_name_label)
+        categoryNameView.text = categoryName.take(7)
 
         // ヘッダーセットアップ
         setUpHeaderAction(view)
 
-        var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
 
         addButton.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
@@ -96,8 +107,8 @@ class LocatorListFragment : Fragment() {
         recyclerView.addItemDecoration(
             DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
         )
-        viewModel.locatorList.observe(this.requireActivity()) { it
-            val adapter = LocatorAdapter(it)
+        viewModel.locatorList.observe(viewLifecycleOwner) { it
+            val adapter = LocatorAdapter(viewModel, it, this.requireContext())
             adapter.setOnTapedListner(
                 object :LocatorAdapter.onTappedListner{
                     override fun onTapped(url: String) {
@@ -109,11 +120,11 @@ class LocatorListFragment : Fragment() {
                     }
                 }
             )
+            OneTouchHelperCallback(recyclerView).build()
+
             recyclerView.adapter = adapter
         }
     }
-
-
 
 
     /**
@@ -122,10 +133,11 @@ class LocatorListFragment : Fragment() {
      */
     companion object {
         @JvmStatic
-        fun newInstance(categoryId: Int) =
+        fun newInstance(categoryId: Int, name: String) =
             LocatorListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(AppArgKey.ARG_CATEGORY_ID_KEY, categoryId)
+                    putString(AppArgKey.ARG_CATEGORY_NAME_KEY, name)
                 }
             }
     }

@@ -1,25 +1,42 @@
 package com.amefure.linkmark.View.Locator
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Locator
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
+import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
+import com.amefure.linkmark.ViewModel.LocatorViewModel
 import java.text.SimpleDateFormat
+import java.util.Collections
 
-class LocatorAdapter(locatorList: List<Locator>): RecyclerView.Adapter<LocatorAdapter.MainViewHolder>() {
+class LocatorAdapter(
+    private val viewModel: LocatorViewModel,
+    private val locatorList: List<Locator>,
+    private val context: Context
+): RecyclerView.Adapter<LocatorAdapter.MainViewHolder>(), OneTouchHelperCallback.DragAdapter {
 
     private val _locatorList: MutableList<Locator> = locatorList.toMutableList()
 
     override fun getItemCount(): Int = _locatorList.size
 
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        Collections.swap(locatorList, fromPosition, toPosition)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(
-            // XMLレイアウトファイルからViewオブジェクトを作成
-            LayoutInflater.from(parent.context).inflate(R.layout.fragment_locator_item, parent, false)
-        )
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_locator_item, parent, false)
+        return MainViewHolder(view).also { viewHolder ->
+            viewHolder.foregroundKnobLayout.setOnClickListener {
+                val position = viewHolder.adapterPosition
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
@@ -34,7 +51,15 @@ class LocatorAdapter(locatorList: List<Locator>): RecyclerView.Adapter<LocatorAd
             listner.onTapped(locator.url)
         }
     }
-    class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), OneTouchHelperCallback.SwipeViewHolder {
+        override val foregroundKnobLayout: ViewGroup = itemView.findViewById(R.id.foregroundKnobLayout)
+        override val backgroundLeftButtonLayout: ViewGroup = itemView.findViewById(R.id.backgroundLeftButtonLayout)
+        override val backgroundRightButtonLayout: ViewGroup = itemView.findViewById(R.id.backgroundRightButtonLayout)
+        override val canRemoveOnSwipingFromRight: Boolean get() = false
+
+        val editButton: ImageButton = itemView.findViewById(R.id.editButton)
+        val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
+
 
         val title: TextView = itemView.findViewById(R.id.locator_title)
         val memo: TextView = itemView.findViewById(R.id.locator_memo)

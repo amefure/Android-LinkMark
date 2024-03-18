@@ -49,13 +49,14 @@
             android:layout_weight="1" />
 
         <TextView
+            android:id="@+id/category_name_label"
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:background="@drawable/link_red_background"
             android:gravity="center"
             android:text="料理"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <Space
             android:layout_width="match_parent"
