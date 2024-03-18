@@ -1,4 +1,4 @@
-package com.amefure.linkmark.View.Category.RecycleViewSetting
+package com.amefure.linkmark.View.Utility
 
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -97,7 +97,8 @@ open class OneTouchHelperCallback(private val recyclerView: RecyclerView): ItemT
                 MotionEvent.ACTION_UP -> {
                     val childView = recyclerView.findChildViewUnder(event.x, event.y) ?: return@setOnTouchListener false
                     val adapterPosition = recyclerView.getChildAdapterPosition(childView)
-                    val viewHolder = recyclerView.findViewHolderForAdapterPosition(adapterPosition) as? SwipeViewHolder ?: return@setOnTouchListener false
+                    val viewHolder = recyclerView.findViewHolderForAdapterPosition(adapterPosition) as? SwipeViewHolder
+                        ?: return@setOnTouchListener false
                     val tolerance = 3 * view.resources.displayMetrics.density.toInt()
 
                     if (viewHolder.foregroundKnobLayout.translationX >= viewHolder.backgroundLeftButtonLayout.width - tolerance) {

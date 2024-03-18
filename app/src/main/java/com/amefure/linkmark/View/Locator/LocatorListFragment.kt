@@ -1,7 +1,6 @@
 package com.amefure.linkmark.View.Locator
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +8,19 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.Model.Key.AppArgKey
+import com.amefure.linkmark.Model.Locator
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.CategoryInputFragment
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
-import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchListener
-import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
+import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
-import com.amefure.linkmark.View.WebView.ControlWebViewFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -65,12 +62,13 @@ class LocatorListFragment : Fragment() {
 
         addButton.setOnClickListener {
             parentFragmentManager.beginTransaction().apply {
-                add(R.id.main_frame, LocatorInputFragment.newInstance(categoryId))
+                add(R.id.main_frame, LocatorInputFragment.newInstance(categoryId, null))
                 addToBackStack(null)
                 commit()
             }
         }
 
+        // リサイクルビューの角丸
         recyclerView = view.findViewById(R.id.locator_list)
         recyclerView.outlineProvider = ClipOutlineProvider()
         recyclerView.clipToOutline = true
@@ -109,17 +107,48 @@ class LocatorListFragment : Fragment() {
         )
         viewModel.locatorList.observe(viewLifecycleOwner) { it
             val adapter = LocatorAdapter(viewModel, it, this.requireContext())
-            adapter.setOnTapedListner(
-                object :LocatorAdapter.onTappedListner{
-                    override fun onTapped(url: String) {
+
+            adapter.setOnTappedListner(
+                object : LocatorAdapter.onTappedListner {
+                    override fun onEditTapped(locatorId: Int) {
                         parentFragmentManager.beginTransaction().apply {
-                            add(R.id.main_frame, ControlWebViewFragment.newInstance(url))
-                            addToBackStack(null)
+                            add(R.id.main_frame, LocatorInputFragment.newInstance(categoryId, locatorId))
                             commit()
                         }
                     }
+
+                    override fun onDeleteTapped(locator: Locator, completion: (result: Boolean) -> Unit) {
+                        val dialog = CustomNotifyDialogFragment.newInstance(
+                            title = getString(R.string.dialog_title_notice),
+                            msg = getString(R.string.dialog_msg_delete_confirm, locator.title),
+                            showPositive = true,
+                            showNegative = true
+                        )
+                        dialog.setOnTappedListner(
+                            object : CustomNotifyDialogFragment.onTappedListner {
+                                override fun onNegativeButtonTapped() { }
+
+                                override fun onPositiveButtonTapped() {
+                                    viewModel.deleteLocator(locator)
+                                    completion(true)
+                                }
+                            }
+                        )
+                        dialog.show(parentFragmentManager, "ValidateNameDialog")
+                    }
                 }
             )
+//            adapter.setOnTapedListner(
+//                object :LocatorAdapter.onTappedListner{
+//                    override fun onTapped(url: String) {
+//                        parentFragmentManager.beginTransaction().apply {
+//                            add(R.id.main_frame, ControlWebViewFragment.newInstance(url))
+//                            addToBackStack(null)
+//                            commit()
+//                        }
+//                    }
+//                }
+//            )
             OneTouchHelperCallback(recyclerView).build()
 
             recyclerView.adapter = adapter

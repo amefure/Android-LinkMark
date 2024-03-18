@@ -15,7 +15,7 @@ import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchListener
-import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
+import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
@@ -41,6 +41,7 @@ class CategoryListFragment : Fragment() {
 
         viewModel.fetchAllCategorys()
 
+        // リサイクルビューの角丸
         recyclerView = view.findViewById(R.id.category_list)
         recyclerView.outlineProvider = ClipOutlineProvider()
         recyclerView.clipToOutline = true

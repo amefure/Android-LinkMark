@@ -2,17 +2,21 @@ package com.amefure.linkmark.View.Locator
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.webkit.URLUtil
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
+import com.amefure.linkmark.Model.AppThemaColor
 import com.amefure.linkmark.Model.Key.AppArgKey
+import com.amefure.linkmark.Model.Locator
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
@@ -20,8 +24,14 @@ import com.amefure.linkmark.ViewModel.LocatorViewModel
 class LocatorInputFragment : Fragment() {
 
     private var categoryId: Int = 0
+    private var locatorId: Int = -1
+    private var locator: Locator? = null
 
     private val viewModel: LocatorViewModel by viewModels()
+
+    private lateinit var inputTitleText: EditText
+    private lateinit var inputUrlText: EditText
+    private lateinit var inputMemoText: EditText
 
     private var isValidationEmptyFlag = false
     private var isValidationUrlFlag = false
@@ -30,6 +40,7 @@ class LocatorInputFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             categoryId = it.getInt(AppArgKey.ARG_CATEGORY_ID_KEY)
+            locatorId = it.getInt(AppArgKey.ARG_LOCATOR_ID_KEY)
         }
     }
 
@@ -42,8 +53,43 @@ class LocatorInputFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inputTitleText = view.findViewById(R.id.title_edit_text)
+        inputUrlText = view.findViewById(R.id.url_edit_text)
+        inputMemoText = view.findViewById(R.id.memo_edit_text)
 
         setUpHeaderAction(view)
+
+        // Updateなら
+        if (locatorId != -1) {
+            subscribeLocator()
+            viewModel.fetchAllLocator(categoryId)
+        }
+    }
+
+    /**
+     * カテゴリリスト観測
+     */
+    private fun subscribeLocator() {
+        viewModel.locatorList.observe(viewLifecycleOwner) {
+            // Update時の初期値格納
+            setUpLocatorView()
+        }
+    }
+
+    /**
+     * Updateの場合にUI更新
+     */
+    private fun setUpLocatorView() {
+        locatorId?.let {
+            locator = viewModel.locatorList.value?.let {
+                it.first { it.id == locatorId }
+            }
+            locator?.let {
+                inputTitleText.setText(it.title)
+                inputUrlText.setText(it.url)
+                inputMemoText.setText(it.memo)
+            }
+        }
     }
 
     /**
@@ -57,7 +103,7 @@ class LocatorInputFragment : Fragment() {
         val leftButton: ImageButton = headerView.findViewById(R.id.left_button)
         leftButton.setOnClickListener {
             closedKeyBoard()
-            parentFragmentManager.popBackStack()
+            parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
         val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
@@ -70,10 +116,6 @@ class LocatorInputFragment : Fragment() {
      * Headerにある右側のボタンに登録処理を実装
      */
     private fun registerAction(view: View) {
-        val inputTitleText: EditText = view.findViewById(R.id.title_edit_text)
-        val inputUrlText: EditText = view.findViewById(R.id.url_edit_text)
-        val inputMemoText: EditText = view.findViewById(R.id.memo_edit_text)
-
         val title: String = inputTitleText.text.toString()
         val url: String = inputUrlText.text.toString()
         val memo: String = inputMemoText.text.toString()
@@ -100,14 +142,28 @@ class LocatorInputFragment : Fragment() {
             return@registerAction
         }
 
-        viewModel.insertLocator(
-            categoryId = categoryId,
-            title = title,
-            url = url,
-            memo = memo
-        )
+        locator?.let {
+            // Update
+            viewModel.updateLocator(
+                id = it.id,
+                categoryId = categoryId,
+                title = title,
+                url = url,
+                memo = memo,
+                order = it.order,
+                createdAt = it.createdAt
+            )
+        }?: run {
+            // Create
+            viewModel.insertLocator(
+                categoryId = categoryId,
+                title = title,
+                url = url,
+                memo = memo
+            )
+        }
         closedKeyBoard()
-        parentFragmentManager.popBackStack()
+        parentFragmentManager.beginTransaction().remove(this).commit()
     }
 
     /**
@@ -144,10 +200,11 @@ class LocatorInputFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(categoryId: Int) =
+        fun newInstance(categoryId: Int, locatorId: Int?) =
             LocatorInputFragment().apply {
                 arguments = Bundle().apply {
                     putInt(AppArgKey.ARG_CATEGORY_ID_KEY, categoryId)
+                    putInt(AppArgKey.ARG_LOCATOR_ID_KEY, locatorId ?: -1)
                 }
             }
     }

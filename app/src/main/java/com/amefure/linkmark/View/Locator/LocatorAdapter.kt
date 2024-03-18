@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.amefure.linkmark.Model.Category
 import com.amefure.linkmark.Model.Locator
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
-import com.amefure.linkmark.View.Category.RecycleViewSetting.OneTouchHelperCallback
+import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.ViewModel.LocatorViewModel
 import java.text.SimpleDateFormat
 import java.util.Collections
@@ -47,8 +48,18 @@ class LocatorAdapter(
         holder.createdAt.text = df.format(locator.createdAt).toString()
         holder.url.text = locator.url
 
-        holder.itemView.setOnClickListener {
-            listner.onTapped(locator.url)
+
+        holder.editButton.setOnClickListener {
+            listener.onEditTapped(locator.id)
+        }
+
+        holder.deleteButton.setOnClickListener {
+            listener.onDeleteTapped(locator) {
+                if (it) {
+                    val position = holder.adapterPosition
+                    notifyItemRemoved(position)
+                }
+            }
         }
     }
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), OneTouchHelperCallback.SwipeViewHolder {
@@ -67,18 +78,18 @@ class LocatorAdapter(
         val url: TextView = itemView.findViewById(R.id.locator_url)
     }
 
-    private lateinit var listner: onTappedListner
-
+    private lateinit var listener: onTappedListner
     interface onTappedListner {
-        fun onTapped(url: String)
+        fun onEditTapped(locatorId: Int)
+        fun onDeleteTapped(locator: Locator, completion: (result: Boolean) -> Unit)
     }
 
     /**
      * リスナーのセットは使用するFragmentから呼び出して行う
      * リスナーオブジェクトの中に処理が含まれて渡される
      */
-    public fun setOnTapedListner(listener: onTappedListner) {
+    public fun setOnTappedListner(listener: onTappedListner) {
         // 定義した変数listenerに実行したい処理を引数で渡す（CategoryListFragmentで渡している）
-        this.listner = listener
+        this.listener = listener
     }
 }
