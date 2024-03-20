@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Config.AppThemaColor
 import com.amefure.linkmark.Model.Database.Category
+import com.amefure.linkmark.Model.Database.CategoryWithLocators
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.ViewModel.CategoryViewModel
@@ -18,22 +19,22 @@ import java.util.Collections
 
 class CategoryAdapter(
     private val viewModel: CategoryViewModel,
-    private val categoryList: List<Category>,
+    private val categoryWithLocators: List<CategoryWithLocators>,
     private val context: Context
     ) :RecyclerView.Adapter<CategoryAdapter.MainViewHolder>(), OneTouchHelperCallback.DragAdapter {
-    private val _categoryList: MutableList<Category> = categoryList.toMutableList()
-    override fun getItemCount(): Int = _categoryList.size
+    private val _categoryWithLocators: MutableList<CategoryWithLocators> = categoryWithLocators.toMutableList()
+    override fun getItemCount(): Int = _categoryWithLocators.size
 
-    public fun getItemAtPosition(position: Int) : Category? {
-        if (position < 0 || position >= _categoryList.size) {
+    public fun getItemAtPosition(position: Int) : CategoryWithLocators? {
+        if (position < 0 || position >= _categoryWithLocators.size) {
             return null
         }
-        val item = _categoryList[position]
+        val item = _categoryWithLocators[position]
         return item
     }
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         if (fromPosition >= 0 && toPosition >= 0) {
-            Collections.swap(categoryList, fromPosition, toPosition)
+            Collections.swap(categoryWithLocators, fromPosition, toPosition)
             changeOrder(fromPosition, toPosition)
             notifyDataSetChanged()
         }
@@ -49,25 +50,25 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        val category = _categoryList[position]
+        val categoryWithLocators = _categoryWithLocators[position]
 
         var color: ColorStateList? = null
         try {
-            color = AppThemaColor.valueOf(category.color).color(context)
+            color = AppThemaColor.valueOf(categoryWithLocators.category.color).color(context)
         } catch (e: IllegalArgumentException) {
             color = AppThemaColor.RED.color(context)
         }
 
         holder.color.backgroundTintList = color
-        holder.name.text = category.name.take(13)
-        holder.count.text = category.order.toString()
+        holder.name.text = categoryWithLocators.category.name.take(13)
+        holder.count.text = categoryWithLocators.locators.size.toString()
 
         holder.editButton.setOnClickListener {
-            listener.onEditTapped(category.id)
+            listener.onEditTapped(categoryWithLocators.category.id)
         }
 
         holder.deleteButton.setOnClickListener {
-            listener.onDeleteTapped(category) {
+            listener.onDeleteTapped(categoryWithLocators.category) {
                 if (it) {
                     val position = holder.adapterPosition
                     notifyItemRemoved(position)
@@ -110,10 +111,10 @@ class CategoryAdapter(
      * ローカルデータorderプロパティ更新処理
      */
     public fun changeOrder(fromPos: Int, toPos: Int) {
-        if (fromPos < 0 || fromPos >= _categoryList.size) { return }
-        var category = _categoryList[fromPos]
-        category.order = toPos
-        viewModel.changeOrder(source = fromPos, destination = toPos, _categoryList)
+        if (fromPos < 0 || fromPos >= _categoryWithLocators.size) { return }
+        var categoryWithLocators = _categoryWithLocators[fromPos]
+        categoryWithLocators.category.order = toPos
+        viewModel.changeOrder(source = fromPos, destination = toPos, _categoryWithLocators)
     }
 }
 

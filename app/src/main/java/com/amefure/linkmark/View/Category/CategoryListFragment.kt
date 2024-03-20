@@ -95,7 +95,7 @@ class CategoryListFragment : Fragment() {
             DividerItemDecoration(this.requireActivity(), DividerItemDecoration.VERTICAL)
         )
 
-        viewModel.categoryList.observe(viewLifecycleOwner) {
+        viewModel.categoryWithLocators.observe(viewLifecycleOwner) {
             val adapter = CategoryAdapter(viewModel, it, this.requireContext())
             adapter.setOnTappedListner(
                 object : CategoryAdapter.onTappedListner {

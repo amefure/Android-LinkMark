@@ -3,6 +3,7 @@ package com.amefure.linkmark.Repository.Room
 import android.content.Context
 import com.amefure.linkmark.Repository.Room.Database.AppDatabase
 import com.amefure.linkmark.Model.Database.Category
+import com.amefure.linkmark.Model.Database.CategoryWithLocators
 import com.amefure.linkmark.Model.Database.Locator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -71,8 +72,8 @@ class RootRepository (context: Context) {
     }
 
     // カテゴリ取得
-    public fun fetchAllCategory(callback: (List<Category>) -> Unit) {
-        categoryDao.fetchAllCategory()
+    public fun fetchAllCategory(callback: (List<CategoryWithLocators>) -> Unit) {
+        categoryDao.fetchCategoriesWithLocators()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

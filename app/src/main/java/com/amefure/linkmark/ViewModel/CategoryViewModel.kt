@@ -5,13 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.amefure.linkmark.Model.Database.Category
+import com.amefure.linkmark.Model.Database.CategoryWithLocators
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(app: Application) : RootViewModel(app) {
 
-    private val _categoryList = MutableLiveData<List<Category>>()
-    public val categoryList: LiveData<List<Category>> = _categoryList
+    private val _categoryWithLocators = MutableLiveData<List<CategoryWithLocators>>()
+    public val categoryWithLocators: LiveData<List<CategoryWithLocators>> = _categoryWithLocators
 
 
     /**
@@ -22,7 +23,7 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
         // データの取得は非同期で
         viewModelScope.launch(Dispatchers.IO) {  // データ取得はIOスレッドで
             rootRepository.fetchAllCategory {
-                _categoryList.postValue(it.sortedBy { it.order })  // 本来はDBやCacheから取得
+                _categoryWithLocators.postValue(it.sortedBy { it.category.order })  // 本来はDBやCacheから取得
             }
         }
     }
@@ -42,8 +43,8 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
      * [order]のみ更新
      */
     private fun updateOrder(id: Int, order: Int) {
-        val category = _categoryList.value?.find { it.id == id } ?: return@updateOrder
-        this.updateCategory(id, category.name , category.color, order)
+        val categoryWithLocators = _categoryWithLocators.value?.find { it.category.id == id } ?: return@updateOrder
+        this.updateCategory(id, categoryWithLocators.category.name , categoryWithLocators.category.color, order)
     }
 
 
@@ -59,15 +60,15 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
     /**
      * ローカルデータorderプロパティ更新処理
      */
-    public fun changeOrder(source: Int, destination: Int, items: List<Category>) {
+    public fun changeOrder(source: Int, destination: Int, items: List<CategoryWithLocators>) {
 
-        var moveId = items[source].id
+        var moveId = items[source].category.id
 
         // 上から下に移動する
         if (source < destination) {
             for (i in (source + 1)..(destination - 1)) {
                 items.getOrNull(i)?.let { item ->
-                    updateOrder(item.id, item.order - 1)
+                    updateOrder(item.category.id, item.category.order - 1)
                 }
             }
             updateOrder(moveId, destination - 1)
@@ -76,7 +77,7 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
         } else if (destination < source) {
             for (i in (destination until source).reversed()) {
                 items.getOrNull(i)?.let { item ->
-                    updateOrder(item.id, item.order + 1)
+                    updateOrder(item.category.id, item.category.order + 1)
                 }
             }
             updateOrder(moveId, destination)

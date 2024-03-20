@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.amefure.linkmark.Model.Config.AppThemaColor
 import com.amefure.linkmark.Model.Database.Category
+import com.amefure.linkmark.Model.Database.CategoryWithLocators
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
@@ -22,7 +23,7 @@ import com.amefure.linkmark.ViewModel.CategoryViewModel
 class CategoryInputFragment : Fragment() {
 
     private var categoryId: Int? = null
-    private var category: Category? = null
+    private var categoryWithLocators: CategoryWithLocators? = null
 
     private val viewModel: CategoryViewModel by viewModels()
 
@@ -75,7 +76,7 @@ class CategoryInputFragment : Fragment() {
      * カテゴリリスト観測
      */
     private fun subscribeCategory() {
-        viewModel.categoryList.observe(viewLifecycleOwner) {
+        viewModel.categoryWithLocators.observe(viewLifecycleOwner) {
             // Update時の初期値格納
             setUpCategoryView()
         }
@@ -86,14 +87,14 @@ class CategoryInputFragment : Fragment() {
      */
     private fun setUpCategoryView() {
         categoryId?.let {
-            category = viewModel.categoryList.value?.let {
-                it.first { it.id == categoryId }
+            categoryWithLocators = viewModel.categoryWithLocators.value?.let {
+                it.first { it.category.id == categoryId }
             }
-            category?.let {
-                inputNameText.setText(it.name)
-                selectedColor = it.color
+            categoryWithLocators?.let {
+                inputNameText.setText(it.category.name)
+                selectedColor = it.category.color
 
-               when(it.color) {
+               when(it.category.color) {
                     AppThemaColor.RED.name -> redButton.alpha = 0.5f
                     AppThemaColor.YELLOW.name -> yellowButton.alpha = 0.5f
                     AppThemaColor.BLUE.name -> blueButton.alpha = 0.5f
@@ -131,9 +132,9 @@ class CategoryInputFragment : Fragment() {
     private fun registerAction() {
         val name: String = inputNameText.text.toString()
         if (!name.isEmpty()) {
-            category?.let {
+            categoryWithLocators?.let {
                 // Update
-                viewModel.updateCategory(it.id, name, selectedColor, it.order)
+                viewModel.updateCategory(it.category.id, name, selectedColor, it.category.order)
             }?: run {
                 // Create
                 viewModel.insertCategory(name, selectedColor)

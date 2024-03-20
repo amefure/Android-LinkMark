@@ -4,6 +4,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Database.Category
+import com.amefure.linkmark.Model.Database.CategoryWithLocators
 
 class CategoryItemTouchListener : RecyclerView.SimpleOnItemTouchListener() {
 
@@ -31,9 +32,9 @@ class CategoryItemTouchListener : RecyclerView.SimpleOnItemTouchListener() {
                 if (position != RecyclerView.NO_POSITION) {
                     val adapter = rv.adapter
                     if (adapter is CategoryAdapter) {
-                        val tappedItem: Category? = adapter.getItemAtPosition(position)
+                        val tappedItem: CategoryWithLocators? = adapter.getItemAtPosition(position)
                         tappedItem?.let {
-                            listener.onTapped(it.id, it.name, it.color)
+                            listener.onTapped(it.category.id, it.category.name, it.category.color)
                         }
                     }
                 }
