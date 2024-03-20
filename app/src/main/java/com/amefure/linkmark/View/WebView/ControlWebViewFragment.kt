@@ -52,6 +52,18 @@ class ControlWebViewFragment : Fragment() {
             webView.goForward()
         }
 
+        shareButton.setOnClickListener {
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, url)
+            }
+            // 共有インテント表示
+            if (intent.resolveActivity(requireContext().packageManager) != null) {
+                startActivity(Intent.createChooser(intent, null))
+            }
+        }
+
         browserButton.setOnClickListener {
             val uri = Uri.parse(url)
             val intent = Intent(Intent.ACTION_VIEW, uri)
