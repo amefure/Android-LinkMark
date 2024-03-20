@@ -42,6 +42,15 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="172dp" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ex_text"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_msg"
+        app:layout_constraintVertical_bias="1.0" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,13 +70,23 @@
             android:id="@+id/negative_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="NG" />
+            android:backgroundTint="#00000000"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="キャンセル" />
+
+        <View
+            android:id="@+id/button_vertical_divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/ex_text" />
 
 
         <Button
             android:id="@+id/positive_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            style="?android:attr/borderlessButtonStyle"
             android:text="OK" />
 
 

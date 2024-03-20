@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
+import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 
 class CustomNotifyDialogFragment : DialogFragment() {
 
@@ -80,13 +81,16 @@ class CustomNotifyDialogFragment : DialogFragment() {
         val msg: TextView = dialog.findViewById(R.id.dialog_msg)
         val positiveButton: Button = dialog.findViewById(R.id.positive_button)
         val negativeButton: Button = dialog.findViewById(R.id.negative_button)
+        val divider: View = dialog.findViewById(R.id.button_vertical_divider)
 
         if (!showPositive) {
             positiveButton.visibility = View.GONE
+            divider.visibility = View.GONE
         }
 
         if (!showNegative) {
             negativeButton.visibility = View.GONE
+            divider.visibility = View.GONE
         }
 
         title.text = this.title
