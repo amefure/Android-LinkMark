@@ -1,6 +1,7 @@
 package com.amefure.linkmark.View.Category.RecycleViewSetting
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,15 +51,14 @@ class CategoryAdapter(
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val category = _categoryList[position]
 
-        val color = when(category.color) {
-            AppThemaColor.RED.name -> R.color.ex_red
-            AppThemaColor.YELLOW.name -> R.color.ex_yellow
-            AppThemaColor.BLUE.name -> R.color.ex_blue
-            AppThemaColor.GREEN.name -> R.color.ex_green
-            AppThemaColor.PURPLE.name -> R.color.ex_purple
-            else -> R.color.ex_red
+        var color: ColorStateList? = null
+        try {
+            color = AppThemaColor.valueOf(category.color).color(context)
+        } catch (e: IllegalArgumentException) {
+            color = AppThemaColor.RED.color(context)
         }
-        holder.color.backgroundTintList = ContextCompat.getColorStateList(context, color)
+
+        holder.color.backgroundTintList = color
         holder.name.text = category.name.take(13)
         holder.count.text = category.order.toString()
 

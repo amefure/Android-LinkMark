@@ -131,9 +131,9 @@ class CategoryListFragment : Fragment() {
             val itemTouchListener = CategoryItemTouchListener()
             itemTouchListener.setOnTappedListner(
                 object : CategoryItemTouchListener.onTappedListner{
-                    override fun onTapped(categoryId: Int, name: String) {
+                    override fun onTapped(categoryId: Int, name: String, color: String) {
                         parentFragmentManager.beginTransaction().apply {
-                            add(R.id.main_frame, LocatorListFragment.newInstance(categoryId, name))
+                            add(R.id.main_frame, LocatorListFragment.newInstance(categoryId, name, color))
                             addToBackStack(null)
                             commit()
                         }

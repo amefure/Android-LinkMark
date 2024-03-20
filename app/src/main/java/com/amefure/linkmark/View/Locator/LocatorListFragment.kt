@@ -1,5 +1,6 @@
 package com.amefure.linkmark.View.Locator
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.amefure.linkmark.Model.Config.AppThemaColor
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.Model.Database.Locator
 import com.amefure.linkmark.R
@@ -29,6 +31,7 @@ class LocatorListFragment : Fragment() {
 
     private var categoryId: Int = 0
     private var categoryName: String = ""
+    private var categoryColor: String = ""
 
     private val viewModel: LocatorViewModel by viewModels()
 
@@ -40,6 +43,7 @@ class LocatorListFragment : Fragment() {
         arguments?.let {
             categoryId = it.getInt(AppArgKey.ARG_CATEGORY_ID_KEY)
             categoryName = it.getString(AppArgKey.ARG_CATEGORY_NAME_KEY).toString()
+            categoryColor = it.getString(AppArgKey.ARG_CATEGORY_COLOR_KEY).toString()
         }
     }
 
@@ -55,6 +59,16 @@ class LocatorListFragment : Fragment() {
         var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
         val categoryNameView: TextView = view.findViewById(R.id.category_name_label)
         categoryNameView.text = categoryName.take(7)
+
+        try {
+            var color = AppThemaColor.valueOf(categoryColor).color(this.requireContext())
+            addButton.backgroundTintList = color
+            categoryNameView.backgroundTintList = color
+        } catch (e: IllegalArgumentException) {
+            var color = AppThemaColor.RED.color(this.requireContext())
+            addButton.backgroundTintList = color
+            categoryNameView.backgroundTintList = color
+        }
 
         // ヘッダーセットアップ
         setUpHeaderAction(view)
@@ -165,11 +179,12 @@ class LocatorListFragment : Fragment() {
      */
     companion object {
         @JvmStatic
-        fun newInstance(categoryId: Int, name: String) =
+        fun newInstance(categoryId: Int, name: String, color: String) =
             LocatorListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(AppArgKey.ARG_CATEGORY_ID_KEY, categoryId)
                     putString(AppArgKey.ARG_CATEGORY_NAME_KEY, name)
+                    putString(AppArgKey.ARG_CATEGORY_COLOR_KEY, color)
                 }
             }
     }

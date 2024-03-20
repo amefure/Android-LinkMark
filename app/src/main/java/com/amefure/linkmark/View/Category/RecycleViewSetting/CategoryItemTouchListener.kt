@@ -9,7 +9,7 @@ class CategoryItemTouchListener : RecyclerView.SimpleOnItemTouchListener() {
 
     private lateinit var listener: onTappedListner
     interface onTappedListner {
-        fun onTapped(categoryId: Int, name: String)
+        fun onTapped(categoryId: Int, name: String, color: String)
     }
 
     /**
@@ -33,7 +33,7 @@ class CategoryItemTouchListener : RecyclerView.SimpleOnItemTouchListener() {
                     if (adapter is CategoryAdapter) {
                         val tappedItem: Category? = adapter.getItemAtPosition(position)
                         tappedItem?.let {
-                            listener.onTapped(it.id, it.name)
+                            listener.onTapped(it.id, it.name, it.color)
                         }
                     }
                 }
