@@ -1,4 +1,4 @@
-package com.amefure.linkmark.Model
+package com.amefure.linkmark.Model.Config
 
 enum class AppThemaColor {
     RED,

@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.amefure.linkmark.Model.Category
+import com.amefure.linkmark.Model.Database.Category
 import io.reactivex.Flowable
 
 @Dao

@@ -8,4 +8,9 @@
     <string name="dialog_msg_validation_url">・有効なリンクを入力してください。</string>
 
     <string name="dialog_msg_delete_confirm">「%1$s」を本当に削除しますか？\n削除するとリンクも全てなくなります。</string>
+
+    <!-- Setting -->
+    <string name="setting_link_inquiry">アプリの不具合はこちら</string>
+    <string name="setting_link_terms_of_service">利用規約とプライバシーポリシー</string>
+    <string name="setting_link_desc">・アプリに不具合がございましたら「アプリの不具合はこちら」よりお問い合わせください。</string>
 </resources>

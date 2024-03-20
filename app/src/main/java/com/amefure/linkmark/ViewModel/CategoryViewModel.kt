@@ -1,11 +1,10 @@
 package com.amefure.linkmark.ViewModel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.amefure.linkmark.Model.Category
+import com.amefure.linkmark.Model.Database.Category
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.amefure.linkmark.Model.Category
-import com.amefure.linkmark.Model.Locator
+import com.amefure.linkmark.Model.Database.Locator
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.ViewModel.LocatorViewModel

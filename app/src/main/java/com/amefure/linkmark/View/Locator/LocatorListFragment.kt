@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amefure.linkmark.Model.Key.AppArgKey
-import com.amefure.linkmark.Model.Locator
+import com.amefure.linkmark.Model.Database.Locator
 import com.amefure.linkmark.R
-import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchListener
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.View.Locator.RecycleViewSetting.LocatorAdapter
 import com.amefure.linkmark.View.Locator.RecycleViewSetting.LocatorItemTouchListener

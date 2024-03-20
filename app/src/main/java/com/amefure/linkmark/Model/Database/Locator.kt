@@ -1,4 +1,4 @@
-package com.amefure.linkmark.Model
+package com.amefure.linkmark.Model.Database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

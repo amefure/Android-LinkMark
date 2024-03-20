@@ -3,7 +3,7 @@ package com.amefure.linkmark.View.Category.RecycleViewSetting
 import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.amefure.linkmark.Model.Category
+import com.amefure.linkmark.Model.Database.Category
 
 class CategoryItemTouchListener : RecyclerView.SimpleOnItemTouchListener() {
 

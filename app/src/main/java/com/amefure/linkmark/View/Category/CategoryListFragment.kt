@@ -11,13 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amefure.linkmark.Model.Category
+import com.amefure.linkmark.Model.Database.Category
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryAdapter
 import com.amefure.linkmark.View.Category.RecycleViewSetting.CategoryItemTouchListener
 import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.View.Locator.LocatorListFragment
+import com.amefure.linkmark.View.Setting.SettingFragment
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,7 +77,11 @@ class CategoryListFragment : Fragment() {
         val rightButton: ImageButton = headerView.findViewById(R.id.right_button)
         rightButton.setImageResource(R.drawable.button_settings)
         rightButton.setOnClickListener {
-            // TODO: 設定画面へ遷移
+            parentFragmentManager.beginTransaction().apply {
+                add(R.id.main_frame, SettingFragment())
+                addToBackStack(null)
+                commit()
+            }
         }
     }
 

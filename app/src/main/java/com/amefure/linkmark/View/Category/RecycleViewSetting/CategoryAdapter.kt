@@ -8,8 +8,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.amefure.linkmark.Model.AppThemaColor
-import com.amefure.linkmark.Model.Category
+import com.amefure.linkmark.Model.Config.AppThemaColor
+import com.amefure.linkmark.Model.Database.Category
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.ViewModel.CategoryViewModel

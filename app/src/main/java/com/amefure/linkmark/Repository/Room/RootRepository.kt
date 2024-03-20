@@ -2,13 +2,11 @@ package com.amefure.linkmark.Repository.Room
 
 import android.content.Context
 import com.amefure.linkmark.Repository.Room.Database.AppDatabase
-import com.amefure.linkmark.Model.Category
-import com.amefure.linkmark.Model.Locator
-import com.amefure.linkmark.ViewModel.RootApplication
+import com.amefure.linkmark.Model.Database.Category
+import com.amefure.linkmark.Model.Database.Locator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.Date
 

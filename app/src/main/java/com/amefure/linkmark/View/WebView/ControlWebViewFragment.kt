@@ -11,6 +11,7 @@ import android.webkit.URLUtil
 import android.webkit.WebView
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.amefure.linkmark.Model.Config.AppURL
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
 
@@ -83,7 +84,7 @@ class ControlWebViewFragment : Fragment() {
         val client = CustomWebViewClient()
         webView.webViewClient = client
         // ロードするURLが無効な場合に念の為備える
-        webView.loadUrl(url.takeIf { URLUtil.isValidUrl(it) } ?: "https://appdev-room.com/")
+        webView.loadUrl(url.takeIf { URLUtil.isValidUrl(it) } ?: AppURL.SUBSTITUTE_URL)
     }
 
     /**
