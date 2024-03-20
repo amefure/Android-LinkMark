@@ -32,12 +32,13 @@ class LocatorAdapter(
         val item = _locatorList[position]
         return item
     }
-
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        Collections.swap(locatorList, fromPosition, toPosition)
-        notifyDataSetChanged()
+        if (fromPosition >= 0 && toPosition >= 0) {
+            Collections.swap(locatorList, fromPosition, toPosition)
+            changeOrder(fromPosition, toPosition)
+            notifyDataSetChanged()
+        }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_locator_item, parent, false)
         return MainViewHolder(view).also { viewHolder ->
@@ -98,5 +99,15 @@ class LocatorAdapter(
     public fun setOnTappedListner(listener: onTappedListner) {
         // 定義した変数listenerに実行したい処理を引数で渡す（CategoryListFragmentで渡している）
         this.listener = listener
+    }
+
+    /**
+     * ローカルデータorderプロパティ更新処理
+     */
+    public fun changeOrder(fromPos: Int, toPos: Int) {
+        if (fromPos < 0 || fromPos >= _locatorList.size) { return }
+        var category = _locatorList[fromPos]
+        category.order = toPos
+        viewModel.changeOrder(source = fromPos, destination = toPos, _locatorList)
     }
 }

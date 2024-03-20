@@ -31,8 +31,11 @@ class CategoryAdapter(
         return item
     }
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        Collections.swap(categoryList, fromPosition, toPosition)
-        notifyDataSetChanged()
+        if (fromPosition >= 0 && toPosition >= 0) {
+            Collections.swap(categoryList, fromPosition, toPosition)
+            changeOrder(fromPosition, toPosition)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -103,11 +106,14 @@ class CategoryAdapter(
         this.listener = listener
     }
 
+    /**
+     * ローカルデータorderプロパティ更新処理
+     */
     public fun changeOrder(fromPos: Int, toPos: Int) {
         if (fromPos < 0 || fromPos >= _categoryList.size) { return }
         var category = _categoryList[fromPos]
         category.order = toPos
-        viewModel.changeOrder(source = fromPos, destination = toPos)
+        viewModel.changeOrder(source = fromPos, destination = toPos, _categoryList)
     }
 }
 

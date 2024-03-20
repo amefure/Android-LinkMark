@@ -57,9 +57,11 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
         }
     }
 
-    public fun changeOrder(source: Int, destination: Int) {
+    /**
+     * ローカルデータorderプロパティ更新処理
+     */
+    public fun changeOrder(source: Int, destination: Int, items: List<Category>) {
 
-        var items = _categoryList.value ?:return@changeOrder
         var moveId = items[source].id
 
         // 上から下に移動する

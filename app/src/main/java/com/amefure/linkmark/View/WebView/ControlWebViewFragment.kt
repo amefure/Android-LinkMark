@@ -44,32 +44,36 @@ class ControlWebViewFragment : Fragment() {
 
         setUpHeaderAction(view)
 
+        // 戻る
         backButton.setOnClickListener {
             webView.goBack()
         }
 
+        // 進む
         forwardButton.setOnClickListener {
             webView.goForward()
         }
 
+        // 共有インテント表示
         shareButton.setOnClickListener {
             val intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, url)
             }
-            // 共有インテント表示
             if (intent.resolveActivity(requireContext().packageManager) != null) {
                 startActivity(Intent.createChooser(intent, null))
             }
         }
 
+        // ブラウザ起動
         browserButton.setOnClickListener {
             val uri = Uri.parse(url)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
         }
 
+        // リロード
         reloadButton.setOnClickListener {
             webView.reload()
         }
