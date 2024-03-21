@@ -1,7 +1,6 @@
 package com.amefure.linkmark.View.Category
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,15 +24,16 @@ import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 
 class CategoryListFragment : Fragment() {
 
     private var mInterstitialAd:InterstitialAd? = null
+    private var mInterstitialCount: Int = 0
 
     private val viewModel: CategoryViewModel by viewModels()
 
@@ -54,6 +55,7 @@ class CategoryListFragment : Fragment() {
         adView.loadAd(AdRequest.Builder().build())
 
         loadInterstitial()
+        observeInterstitialCount()
 
         viewModel.fetchAllCategorys()
 
@@ -148,10 +150,16 @@ class CategoryListFragment : Fragment() {
                 object : CategoryItemTouchListener.onTappedListner{
                     override fun onTapped(categoryId: Int, name: String, color: String) {
 
-                        if (mInterstitialAd != null) {
-                            mInterstitialAd?.show(this@CategoryListFragment.requireActivity())
+                        if (mInterstitialCount >= 5) {
+                            mInterstitialCount = 0
+                            viewModel.saveInterstitialCount(0)
+                            if (mInterstitialAd != null) {
+                                mInterstitialAd?.show(this@CategoryListFragment.requireActivity())
+                            }
+                        } else {
+                            mInterstitialCount = mInterstitialCount + 1
+                            viewModel.saveInterstitialCount(mInterstitialCount)
                         }
-
                         parentFragmentManager.beginTransaction().apply {
                             add(R.id.main_frame, LocatorListFragment.newInstance(categoryId, name, color))
                             addToBackStack(null)
@@ -165,6 +173,17 @@ class CategoryListFragment : Fragment() {
             OneTouchHelperCallback(recyclerView).build()
 
             recyclerView.adapter = adapter
+        }
+    }
+
+    /**
+     * インタースティシャルカウント観測
+     */
+    private fun observeInterstitialCount() {
+        lifecycleScope.launch {
+            viewModel.observeInterstitialCount().collect {
+                mInterstitialCount = it ?: 0
+            }
         }
     }
 
@@ -184,29 +203,5 @@ class CategoryListFragment : Fragment() {
                 mInterstitialAd = interstitialAd
             }
         })
-
-
-        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-            override fun onAdClicked() {
-                // Called when a click is recorded for an ad.
-            }
-
-            override fun onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-
-                mInterstitialAd = null
-            }
-
-
-            override fun onAdImpression() {
-                // Called when an impression is recorded for an ad.
-
-            }
-
-            override fun onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-
-            }
-        }
     }
 }

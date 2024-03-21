@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.amefure.linkmark.Model.Database.Category
 import com.amefure.linkmark.Model.Database.CategoryWithLocators
+import com.amefure.linkmark.Repository.DataStore.DataStoreRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(app: Application) : RootViewModel(app) {
@@ -14,6 +16,24 @@ class CategoryViewModel(app: Application) : RootViewModel(app) {
     private val _categoryWithLocators = MutableLiveData<List<CategoryWithLocators>>()
     public val categoryWithLocators: LiveData<List<CategoryWithLocators>> = _categoryWithLocators
 
+    private val dataStoreRepository = DataStoreRepository(app.applicationContext)
+
+
+    /**
+     * インタースティシャルカウント保存
+     */
+    public fun saveInterstitialCount(count: Int) {
+        viewModelScope.launch {
+            dataStoreRepository.saveInterstitialCount(count)
+        }
+    }
+
+    /**
+     * インタースティシャルカウント観測
+     */
+    public fun observeInterstitialCount(): Flow<Int?> {
+        return dataStoreRepository.observeInterstitialCount()
+    }
 
     /**
      * Category取得
