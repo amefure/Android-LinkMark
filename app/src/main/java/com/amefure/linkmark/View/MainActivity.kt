@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import com.amefure.linkmark.R
+import com.amefure.linkmark.View.AppLock.AppLockFragment
 import com.amefure.linkmark.View.Category.CategoryListFragment
 import com.google.android.gms.ads.MobileAds
 
@@ -21,10 +22,16 @@ class MainActivity : AppCompatActivity() {
         MobileAds.initialize(this)
 
         supportFragmentManager.beginTransaction().apply {
-            add(R.id.main_frame, CategoryListFragment())
+            add(R.id.main_frame, AppLockFragment())
             addToBackStack(null)
             commit()
         }
+
+//        supportFragmentManager.beginTransaction().apply {
+//            add(R.id.main_frame, CategoryListFragment())
+//            addToBackStack(null)
+//            commit()
+//        }
     }
 
 }

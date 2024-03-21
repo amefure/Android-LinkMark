@@ -14,6 +14,23 @@
     <string name="setting_link_terms_of_service">利用規約とプライバシーポリシー</string>
     <string name="setting_link_desc">・アプリに不具合がございましたら「アプリの不具合はこちら」よりお問い合わせください。</string>
 
+    <!-- AppLock -->
+    <string name="app_lock_password_placeholder">ー</string>
+    <string name="app_lock_password_fill">⚫︎</string>
+    <string name="app_lock_number0">0</string>
+    <string name="app_lock_number1">1</string>
+    <string name="app_lock_number2">2</string>
+    <string name="app_lock_number3">3</string>
+    <string name="app_lock_number4">4</string>
+    <string name="app_lock_number5">5</string>
+    <string name="app_lock_number6">6</string>
+    <string name="app_lock_number7">7</string>
+    <string name="app_lock_number8">8</string>
+    <string name="app_lock_number9">9</string>
+    <string name="app_lock_number_none">-</string>
+    <string name="app_lock_number_back">←</string>
+
+
     <!-- Dev  -->
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <!-- Prd -->
