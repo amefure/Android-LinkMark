@@ -1,6 +1,7 @@
 package com.amefure.linkmark.View.Category
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,10 +24,15 @@ import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class CategoryListFragment : Fragment() {
+
+    private var mInterstitialAd:InterstitialAd? = null
 
     private val viewModel: CategoryViewModel by viewModels()
 
@@ -46,6 +52,8 @@ class CategoryListFragment : Fragment() {
         // 広告の読み込み
         var adView: AdView = view.findViewById(R.id.adView)
         adView.loadAd(AdRequest.Builder().build())
+
+        loadInterstitial()
 
         viewModel.fetchAllCategorys()
 
@@ -139,6 +147,11 @@ class CategoryListFragment : Fragment() {
             itemTouchListener.setOnTappedListner(
                 object : CategoryItemTouchListener.onTappedListner{
                     override fun onTapped(categoryId: Int, name: String, color: String) {
+
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd?.show(this@CategoryListFragment.requireActivity())
+                        }
+
                         parentFragmentManager.beginTransaction().apply {
                             add(R.id.main_frame, LocatorListFragment.newInstance(categoryId, name, color))
                             addToBackStack(null)
@@ -152,6 +165,48 @@ class CategoryListFragment : Fragment() {
             OneTouchHelperCallback(recyclerView).build()
 
             recyclerView.adapter = adapter
+        }
+    }
+
+    /**
+     * AdMobインタースティシャル読み込み
+     */
+    private fun loadInterstitial() {
+
+        var adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(this.requireContext(),"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                mInterstitialAd = null
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                mInterstitialAd = interstitialAd
+            }
+        })
+
+
+        mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdClicked() {
+                // Called when a click is recorded for an ad.
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+
+                mInterstitialAd = null
+            }
+
+
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+
+            }
         }
     }
 }
