@@ -21,6 +21,9 @@ import com.amefure.linkmark.View.Locator.LocatorListFragment
 import com.amefure.linkmark.View.Setting.SettingFragment
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.ViewModel.CategoryViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class CategoryListFragment : Fragment() {
@@ -39,6 +42,10 @@ class CategoryListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 広告の読み込み
+        var adView: AdView = view.findViewById(R.id.adView)
+        adView.loadAd(AdRequest.Builder().build())
 
         viewModel.fetchAllCategorys()
 

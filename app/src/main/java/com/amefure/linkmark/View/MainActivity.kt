@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Category.CategoryListFragment
+import com.google.android.gms.ads.MobileAds
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // 初期化
+        MobileAds.initialize(this)
 
         supportFragmentManager.beginTransaction().apply {
             add(R.id.main_frame, CategoryListFragment())

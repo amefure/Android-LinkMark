@@ -13,4 +13,14 @@
     <string name="setting_link_inquiry">アプリの不具合はこちら</string>
     <string name="setting_link_terms_of_service">利用規約とプライバシーポリシー</string>
     <string name="setting_link_desc">・アプリに不具合がございましたら「アプリの不具合はこちら」よりお問い合わせください。</string>
+
+    <!-- Dev  -->
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <!-- Prd -->
+    <!-- Dev -->
+    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!-- Prd -->
+    <!-- Dev -->
+    <string name="admob_reward_id">ca-app-pub-3940256099942544/5224354917</string>
+    <!-- Prd -->
 </resources>

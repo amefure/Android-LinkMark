@@ -17,6 +17,8 @@ import com.amefure.linkmark.Model.Database.Locator
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 class LocatorInputFragment : Fragment() {
 
@@ -50,6 +52,11 @@ class LocatorInputFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 広告の読み込み
+        var adView: AdView = view.findViewById(R.id.adView)
+        adView.loadAd(AdRequest.Builder().build())
+
         inputTitleText = view.findViewById(R.id.title_edit_text)
         inputUrlText = view.findViewById(R.id.url_edit_text)
         inputMemoText = view.findViewById(R.id.memo_edit_text)

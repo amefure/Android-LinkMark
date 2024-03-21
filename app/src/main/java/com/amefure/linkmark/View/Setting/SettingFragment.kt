@@ -12,6 +12,8 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.amefure.linkmark.Model.Config.AppURL
 import com.amefure.linkmark.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 class SettingFragment : Fragment() {
 
@@ -24,6 +26,10 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 広告の読み込み
+        var adView: AdView = view.findViewById(R.id.adView)
+        adView.loadAd(AdRequest.Builder().build())
 
         setUpHeaderAction(view)
 

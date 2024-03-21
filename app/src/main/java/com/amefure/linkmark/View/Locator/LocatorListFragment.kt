@@ -24,6 +24,8 @@ import com.amefure.linkmark.View.Utility.OneTouchHelperCallback
 import com.amefure.linkmark.View.Utility.ClipOutlineProvider
 import com.amefure.linkmark.View.WebView.ControlWebViewFragment
 import com.amefure.linkmark.ViewModel.LocatorViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -56,6 +58,11 @@ class LocatorListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 広告の読み込み
+        var adView: AdView = view.findViewById(R.id.adView)
+        adView.loadAd(AdRequest.Builder().build())
+
         var addButton: FloatingActionButton = view.findViewById(R.id.add_button)
         val categoryNameView: TextView = view.findViewById(R.id.category_name_label)
         categoryNameView.text = categoryName.take(7)

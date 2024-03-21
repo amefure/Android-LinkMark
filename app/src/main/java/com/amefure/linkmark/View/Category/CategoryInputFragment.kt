@@ -19,6 +19,8 @@ import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R
 import com.amefure.linkmark.View.Dialog.CustomNotifyDialogFragment
 import com.amefure.linkmark.ViewModel.CategoryViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 class CategoryInputFragment : Fragment() {
 
@@ -52,6 +54,11 @@ class CategoryInputFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 広告の読み込み
+        var adView: AdView = view.findViewById(R.id.adView)
+        adView.loadAd(AdRequest.Builder().build())
+
         inputNameText = view.findViewById(R.id.name_edit_text)
         redButton = view.findViewById(R.id.select_red_button)
         yellowButton = view.findViewById(R.id.select_yellow_button)
