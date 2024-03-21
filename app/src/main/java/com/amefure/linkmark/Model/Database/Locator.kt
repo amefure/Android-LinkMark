@@ -29,7 +29,7 @@ data class Locator (
     val categoryId: Int
 )
 
-private class DateConverters {
+public class DateConverters {
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
         return value?.let { Date(it) }
