@@ -5,6 +5,8 @@
     android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ex_thema"
+    android:clickable="true"
     tools:context=".View.AppLock.AppLockFragment">
 
     <include
@@ -79,6 +81,29 @@
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:background="@drawable/app_button_selector"
+        android:text="@string/app_lock_register"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/number_keyboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_label" />
+
+    <ProgressBar
+        android:id="@+id/loading_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/number_keyboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_label" />
 
 
     <LinearLayout

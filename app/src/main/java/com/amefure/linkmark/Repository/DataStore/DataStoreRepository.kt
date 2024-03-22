@@ -13,6 +13,7 @@ class DataStoreRepository(private val context: Context) {
 
     companion object {
         private val INTERSTITIAL_COUNT = intPreferencesKey("interstitial_count")
+        private val APP_LOCK_PASSWORD = intPreferencesKey("app_lock_password")
     }
 
     suspend fun saveInterstitialCount(count: Int) {
@@ -34,6 +35,28 @@ class DataStoreRepository(private val context: Context) {
             }
         }.map { preferences ->
             preferences[INTERSTITIAL_COUNT]
+        }
+    }
+
+    suspend fun saveAppLockPassword(pass: Int) {
+        try {
+            context.dataStore.edit { preferences ->
+                preferences[APP_LOCK_PASSWORD] = pass
+            }
+        } catch (e: IOException) {
+            print("例外が発生したよ")
+        }
+    }
+
+    public fun observeAppLockPassword(): Flow<Int?> {
+        return context.dataStore.data.catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map { preferences ->
+            preferences[APP_LOCK_PASSWORD]
         }
     }
 }

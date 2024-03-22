@@ -9,7 +9,15 @@
 
     <string name="dialog_msg_delete_confirm">「%1$s」を本当に削除しますか？\n削除するとリンクも全てなくなります。</string>
 
+    <!-- App Lock Dialog -->
+    <string name="dialog_save_password">パスワードを設定してアプリをロックしました。</string>
+    <string name="dialog_release_password">パスワードをリセットしてアプリのロックを解除しました。</string>
+    <string name="dialog_different_password">パスワードが違います。</string>
+
     <!-- Setting -->
+    <string name="setting_app_lock">アプリをロックする</string>
+    <string name="setting_app_lock_desc">・アプリにパスワードを設定してロックをかけることができます。</string>
+
     <string name="setting_link_inquiry">アプリの不具合はこちら</string>
     <string name="setting_link_terms_of_service">利用規約とプライバシーポリシー</string>
     <string name="setting_link_desc">・アプリに不具合がございましたら「アプリの不具合はこちら」よりお問い合わせください。</string>
@@ -17,6 +25,7 @@
     <!-- AppLock -->
     <string name="app_lock_password_placeholder">ー</string>
     <string name="app_lock_password_fill">⚫︎</string>
+    <string name="app_lock_register">登録</string>
     <string name="app_lock_number0">0</string>
     <string name="app_lock_number1">1</string>
     <string name="app_lock_number2">2</string>
@@ -34,10 +43,14 @@
     <!-- Dev  -->
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <!-- Prd -->
+    <!--    <string name="admob_app_id">ca-app-pub-4475684244743114~1486597559</string>-->
+
     <!-- Dev -->
     <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
     <!-- Prd -->
+    <!--    <string name="admob_banner_id">ca-app-pub-4475684244743114/8496511429</string>-->
     <!-- Dev -->
-    <string name="admob_reward_id">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="admob_Interstitial_id">ca-app-pub-3940256099942544/5224354917</string>
     <!-- Prd -->
+    <!--    <string name="admob_Interstitial_id">ca-app-pub-4475684244743114/7025300046</string>-->
 </resources>

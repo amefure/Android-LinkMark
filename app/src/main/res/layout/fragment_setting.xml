@@ -32,182 +32,86 @@
             android:orientation="vertical">
 
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/notify_title_layout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="25dp"-->
-<!--                android:layout_marginTop="24dp"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/header_layout">-->
+            <LinearLayout
+                android:id="@+id/app_setting_layout"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textView"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text="App設定"-->
-<!--                    android:textColor="@color/ex_text" />-->
-<!--            </LinearLayout>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="App設定"
+                    android:textColor="@color/ex_text" />
+            </LinearLayout>
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/notify_setting_1"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@color/ex_red"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/notify_title_layout">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/ex_red"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/notify_setting_2">
 
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/notify_setting_image"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="20dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:src="" />-->
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/icon_app_lock" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/notify_setting_label"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="@color/white" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:maxWidth="200dp"
+                    android:maxLines="2"
+                    android:text="@string/setting_app_lock"
+                    android:textColor="@color/white" />
 
-<!--                <Space-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1" />-->
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-<!--                <Button-->
-<!--                    android:id="@+id/notify_setting_time_button"-->
-<!--                    android:layout_width="90dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:backgroundTint="@color/ex_red"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="@color/white" />-->
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/notify_setting_2"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@color/ex_red"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/notify_setting_1">-->
+                <Button
+                    android:id="@+id/app_lock_button"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/link_red_background"
+                    android:text="ON"
+                    android:textColor="@color/white" />
+            </LinearLayout>
 
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/notify_setting_image2"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:src="" />-->
+            <LinearLayout
+                android:id="@+id/notify_desc_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/notify_setting_3">
 
-<!--                <TextView-->
-<!--                    android:id="@+id/notify_setting_label2"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="@color/white" />-->
+                <TextView
+                    android:id="@+id/app_lock_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/setting_app_lock_desc"
+                    android:textColor="@color/ex_text" />
 
-<!--                <Space-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1" />-->
+            </LinearLayout>
 
-<!--                <Button-->
-<!--                    android:id="@+id/notify_setting_day_button"-->
-<!--                    android:layout_width="90dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:backgroundTint="@color/ex_red"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textColorHighlight="@color/white" />-->
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/notify_setting_3"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@color/ex_red"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/notify_setting_2">-->
-
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/notify_setting_image3"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:src="" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/notify_setting_edit_msg"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:maxWidth="200dp"-->
-<!--                    android:maxLines="2"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="@color/white" />-->
-
-<!--                <Space-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1" />-->
-
-<!--                <Button-->
-<!--                    android:id="@+id/notify_setting_msg_button"-->
-<!--                    android:layout_width="90dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:backgroundTint="@color/ex_red"-->
-<!--                    android:text="編集"-->
-<!--                    android:textColor="@color/white" />-->
-<!--            </LinearLayout>-->
-
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/notify_desc_layout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:orientation="vertical"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/notify_setting_3">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/notify_desc_label1"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="@color/white" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/notify_desc_label2"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text=""-->
-<!--                    android:textColor="@color/white" />-->
-<!--            </LinearLayout>-->
 
 
             <LinearLayout

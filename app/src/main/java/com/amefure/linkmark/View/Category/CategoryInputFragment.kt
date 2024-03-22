@@ -13,7 +13,6 @@ import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.amefure.linkmark.Model.Config.AppThemaColor
-import com.amefure.linkmark.Model.Database.Category
 import com.amefure.linkmark.Model.Database.CategoryWithLocators
 import com.amefure.linkmark.Model.Key.AppArgKey
 import com.amefure.linkmark.R

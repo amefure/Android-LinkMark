@@ -14,7 +14,18 @@
             android:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/main_frame"
+            app:layout_constraintStart_toStartOf="@+id/main_frame"
+            app:layout_constraintTop_toTopOf="@+id/main_frame"
+            app:srcCompat="@drawable/app_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
