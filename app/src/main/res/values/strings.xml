@@ -43,14 +43,10 @@
     <!-- Dev  -->
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <!-- Prd -->
-    <!--    <string name="admob_app_id">ca-app-pub-4475684244743114~1486597559</string>-->
-
     <!-- Dev -->
     <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
     <!-- Prd -->
-    <!--    <string name="admob_banner_id">ca-app-pub-4475684244743114/8496511429</string>-->
     <!-- Dev -->
     <string name="admob_Interstitial_id">ca-app-pub-3940256099942544/5224354917</string>
     <!-- Prd -->
-    <!--    <string name="admob_Interstitial_id">ca-app-pub-4475684244743114/7025300046</string>-->
 </resources>
