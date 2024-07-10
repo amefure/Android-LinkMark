@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'com.amefure.linkmark'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.amefure.linkmark"
         minSdk 24
-        targetSdk 33
-        versionCode 2
-        versionName "1.0"
+        targetSdk 34
+        versionCode 3
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
